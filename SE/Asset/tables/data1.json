@@ -1,0 +1,9 @@
+[
+    {
+        "id": 1,
+        "username": "admin",
+        "name": "Phát",
+        "pos": "Manager",
+        "action": "<a href=\"User/Delete?id=1\" class=\"btn btn-danger\" style=\"margin-bottom:10px\">Delete user</a>"
+    }
+]

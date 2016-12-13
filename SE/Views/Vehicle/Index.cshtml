@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Vehicle Manager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <a href="@Url.Action("Create")" class="btn btn-primary" style="margin-bottom:10px">Add Vehicle</a>
+            <table data-toggle="table" data-url="@Url.Action("GetListVehicle")" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+                <thead>
+                    <tr>
+                        <th data-field="id" data-sortable="true">Vehicle ID</th>
+                        <th data-field="linces" data-sortable="true">Linces</th>
+                        <th data-field="date" data-sortable="true">Date Import</th>
+                        <th data-field="action">Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+</div><!--/.row-->
+

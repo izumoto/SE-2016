@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Place Manager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body tabs">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">Route Manager</a></li>
+                    <li><a href="#tab2" data-toggle="tab">City Manager</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tab1">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <a href="@Url.Action("CreateRoute")" class="btn btn-primary" style="margin-bottom:10px">Add Route</a>
+                                <table data-toggle="table" data-url="@Url.Action("GetListRoute")" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="id" data-sortable="true">Route ID</th>
+                                            <th data-field="name" data-sortable="true">Name</th>
+                                            <th data-field="action">Action</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab2">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <a href="@Url.Action("CreateCity")" class="btn btn-primary" style="margin-bottom:10px">Add City</a>
+                                <table data-toggle="table" data-url="@Url.Action("GetListCity")" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="id" data-sortable="true">City ID</th>
+                                            <th data-field="name" data-sortable="true">Name</th>
+                                            <th data-field="action">Action</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/.panel-->
+    </div><!--/.col-->
+
+</div><!-- /.row -->
+

@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Company" Class="DBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=ASUS-LKP\SQLEXPRESS;Initial Catalog=Company;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="CompanyConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.City" Member="Cities">
+    <Type Name="City">
+      <Column Name="idCity" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nameCity" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="City_Route" Member="Routes" ThisKey="idCity" OtherKey="idFrom" Type="Route" />
+      <Association Name="City_Route1" Member="Routes1" ThisKey="idCity" OtherKey="idTo" Type="Route" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Customer" Member="Customers">
+    <Type Name="Customer">
+      <Column Name="idCustomer" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="address" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="phone" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="idcard" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="sex" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Customer_Ticket" Member="Tickets" ThisKey="idCustomer" OtherKey="idCustomer" Type="Ticket" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Employee" Member="Employees">
+    <Type Name="Employee">
+      <Column Name="idEmployee" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="idTypeE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="username" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="password" Type="System.String" DbType="VarChar(32)" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="address" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="phone" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="idcard" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="sex" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="birthday" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="startday" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Employee_Schedule" Member="Schedules" ThisKey="idEmployee" OtherKey="idEmployee" Type="Schedule" />
+      <Association Name="Employee_Ticket" Member="Tickets" ThisKey="idEmployee" OtherKey="idEmployee" Type="Ticket" />
+      <Association Name="EmployeeType_Employee" Member="EmployeeType" ThisKey="idTypeE" OtherKey="idTypeE" Type="EmployeeType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EmployeeType" Member="EmployeeTypes">
+    <Type Name="EmployeeType">
+      <Column Name="idTypeE" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nameTypeE" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="EmployeeType_Employee" Member="Employees" ThisKey="idTypeE" OtherKey="idTypeE" Type="Employee" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Route" Member="Routes">
+    <Type Name="Route">
+      <Column Name="idRoute" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="idFrom" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="idTo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Route_Schedule" Member="Schedules" ThisKey="idRoute" OtherKey="idRoute" Type="Schedule" />
+      <Association Name="City_Route" Member="City" ThisKey="idFrom" OtherKey="idCity" Type="City" IsForeignKey="true" />
+      <Association Name="City_Route1" Member="City1" ThisKey="idTo" OtherKey="idCity" Type="City" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Schedule" Member="Schedules">
+    <Type Name="Schedule">
+      <Column Name="idSchedule" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="dayStart" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="dayEnd" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="idRoute" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="idTime" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="idEmployee" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="idVehicle" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="price" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Association Name="Schedule_Ticket" Member="Tickets" ThisKey="idSchedule" OtherKey="idShedule" Type="Ticket" />
+      <Association Name="Employee_Schedule" Member="Employee" ThisKey="idEmployee" OtherKey="idEmployee" Type="Employee" IsForeignKey="true" />
+      <Association Name="Route_Schedule" Member="Route" ThisKey="idRoute" OtherKey="idRoute" Type="Route" IsForeignKey="true" />
+      <Association Name="TimeStart_Schedule" Member="TimeStart" ThisKey="idTime" OtherKey="idTime" Type="TimeStart" IsForeignKey="true" />
+      <Association Name="Vehicle_Schedule" Member="Vehicle" ThisKey="idVehicle" OtherKey="idVehicle" Type="Vehicle" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Sit" Member="Sits">
+    <Type Name="Sit">
+      <Column Name="idSit" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="idVehicle" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="nameSit" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Sit_Ticket" Member="Tickets" ThisKey="idSit" OtherKey="idSit" Type="Ticket" />
+      <Association Name="Vehicle_Sit" Member="Vehicle" ThisKey="idVehicle" OtherKey="idVehicle" Type="Vehicle" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.StatusPay" Member="StatusPays">
+    <Type Name="StatusPay">
+      <Column Name="idStatus" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nameStatus" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="StatusPay_Ticket" Member="Tickets" ThisKey="idStatus" OtherKey="idStatus" Type="Ticket" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ticket" Member="Tickets">
+    <Type Name="Ticket">
+      <Column Name="idTicket" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="idCustomer" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="idStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="idSit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="idShedule" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="idEmployee" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="dateCreate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Customer_Ticket" Member="Customer" ThisKey="idCustomer" OtherKey="idCustomer" Type="Customer" IsForeignKey="true" />
+      <Association Name="Employee_Ticket" Member="Employee" ThisKey="idEmployee" OtherKey="idEmployee" Type="Employee" IsForeignKey="true" />
+      <Association Name="Schedule_Ticket" Member="Schedule" ThisKey="idShedule" OtherKey="idSchedule" Type="Schedule" IsForeignKey="true" />
+      <Association Name="Sit_Ticket" Member="Sit" ThisKey="idSit" OtherKey="idSit" Type="Sit" IsForeignKey="true" />
+      <Association Name="StatusPay_Ticket" Member="StatusPay" ThisKey="idStatus" OtherKey="idStatus" Type="StatusPay" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TimeStart" Member="TimeStarts">
+    <Type Name="TimeStart">
+      <Column Name="idTime" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="time" Type="System.TimeSpan" DbType="Time" CanBeNull="true" />
+      <Association Name="TimeStart_Schedule" Member="Schedules" ThisKey="idTime" OtherKey="idTime" Type="Schedule" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Vehicle" Member="Vehicles">
+    <Type Name="Vehicle">
+      <Column Name="idVehicle" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="license" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="dayImport" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Vehicle_Schedule" Member="Schedules" ThisKey="idVehicle" OtherKey="idVehicle" Type="Schedule" />
+      <Association Name="Vehicle_Sit" Member="Sits" ThisKey="idVehicle" OtherKey="idVehicle" Type="Sit" />
+    </Type>
+  </Table>
+</Database>
