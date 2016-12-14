@@ -25,7 +25,8 @@ namespace SE.Controllers
                 int idSchedule = ((ListTicket)Session["schedule"]).idSchedule;
                 List<Ticket> ticket = model.GetListTicket(Convert.ToInt32(idSchedule));
                 Session["schedule"] = new ListTicket { idSchedule = Convert.ToInt32(idSchedule), ticket = ticket };
-            }        
+            }   
+                 
             return View();
         }
 
@@ -65,7 +66,7 @@ namespace SE.Controllers
         public ActionResult Delete(int id)
         {
             model.Delete(id);
-            int idSchedule = ((ListTicket) Session["schedule"]).idSchedule;
+            int idSchedule = ((ListTicket)Session["schedule"]).idSchedule;
             List<Ticket> ticket = model.GetListTicket(Convert.ToInt32(idSchedule));
             Session["schedule"] = new ListTicket { idSchedule = Convert.ToInt32(idSchedule), ticket = ticket };
             return RedirectToAction("Index");
@@ -85,6 +86,7 @@ namespace SE.Controllers
             {
                 ViewBag.notify = new Notify { status = false, msg = "Failed to paid" };
             }
+
             return View("Index");
         }
     }

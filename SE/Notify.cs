@@ -9,6 +9,7 @@ namespace SE
     public class Notify
     {
         public bool status { get; set; }
+
         public string msg { get; set; }
 
         /// <summary>
@@ -26,10 +27,12 @@ namespace SE
             {
                 return true;
             }
+
             if (type == "number")
             {
                 return !Regex.IsMatch((string)o, @"^\d+$");
             }
+
             return false;
         }
     }
