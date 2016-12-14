@@ -36,6 +36,7 @@ namespace SE.Controllers
                 ViewBag.notify = CheckUser(v);
                 return View();
             }
+
             model.AddEmployee(v);
             ViewBag.notify = new Notify { status = true, msg = "Add user successfull" };
             return View("Index");
@@ -45,7 +46,8 @@ namespace SE.Controllers
         {
             var data = model.GetListUser();       
             JsonResult result = Json(data.Select(
-                x => new {
+                x => new
+                {
                     id = x.idEmployee,
                     username = x.username,
                     name = x.name,
@@ -68,7 +70,8 @@ namespace SE.Controllers
             if (CheckUser(v) != null)
             {
                 return View("Index");
-            }   
+            } 
+              
             ViewBag.idTypeE = new SelectList(model.GetListPos(), "idTypeE", "nameTypeE", v.idTypeE);
             return View(v);
         }
@@ -82,6 +85,7 @@ namespace SE.Controllers
                 ViewBag.notify = CheckUser(v);
                 return View();
             }
+
             model.Edit(v);
             ViewBag.notify = new Notify { status = true, msg = "Edit user successfull" };
             return View("Index");

@@ -39,6 +39,7 @@ namespace SE.Controllers
                 ViewBag.notify = CheckCustomer(v);
                 return View();
             }
+
             model.AddCustomer(v);
             return RedirectToAction("Create", "Ticket", new { ID = ViewBag.sit, idSchedule = ViewBag.idSchedule });
         }

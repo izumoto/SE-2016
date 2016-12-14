@@ -45,6 +45,7 @@ namespace SE.Controllers
                 ViewBag.notify = CheckSchedule(v);
                 return View();
             }
+
             model.AddSchedule(v);
             ViewBag.notify = new Notify { status = true, msg = "Add schedule successfull" };
             return View("Index");
@@ -56,10 +57,12 @@ namespace SE.Controllers
             if (Request.Params["date"] != null)
             {
                 date = Request.Params["date"].ToString();
-            }             
+            }    
+                     
             var data = model.GetListSchedule(date);
             JsonResult result = Json(data.Select(
-                x => new {
+                x => new
+                {
                     id = x.idSchedule,
                     date = x.dayStart + " - " + x.dayEnd,
                     route = x.Route.City.nameCity + " - " + x.Route.City1.nameCity,
@@ -70,7 +73,6 @@ namespace SE.Controllers
                 }), JsonRequestBehavior.AllowGet);
             return result;
         }
-
 
         public ActionResult Delete(int id)
         {
@@ -85,6 +87,7 @@ namespace SE.Controllers
             {
                 return View("Index");
             }    
+
             ViewBag.idTime = new SelectList(model.GetListTime(), "idTime", "time", v.idTime);
             ViewBag.idRoute = new SelectList(route.GetListRoute().Select(x => new { idRoute = x.idRoute, nameRoute = x.City.nameCity + " - " + x.City1.nameCity }), "idRoute", "nameRoute", v.idRoute);
             ViewBag.idVehicle = new SelectList(vehicle.GetListVehicle(), "idVehicle", "license", v.idVehicle);
@@ -104,6 +107,7 @@ namespace SE.Controllers
                 ViewBag.notify = CheckSchedule(v);
                 return View();
             }
+
             model.Edit(v);
             ViewBag.notify = new Notify { status = true, msg = "Edit schedule successfull" };
             return View("Index");
