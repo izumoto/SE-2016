@@ -14,19 +14,25 @@ namespace SE.Models
         [Required(ErrorMessage = "Please enter your password")]
         public string Password { get; set; }
 
+        /// <summary>
+        /// Check user is exit
+        /// </summary>
+        /// <returns></returns>
         public Employee CheckUser()
         {
             if (UserName == null | Password == null)
                 return null;
-
             DBDataContext db = new DBDataContext();
-
+            /// Get user with username and password
             var result = db.Employees.SingleOrDefault(x => x.username == UserName);
-
             if (result != null && result.password == db.md5(Password))
+            {
                 return result;
+            }
             else
+            {
                 return null;
+            }   
         }
 
     }

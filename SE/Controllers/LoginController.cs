@@ -9,7 +9,10 @@ namespace SE.Controllers
 {
     public class LoginController : Controller
     {
-        // GET: Login
+        /// <summary>
+        /// GET: Login
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View();

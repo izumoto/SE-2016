@@ -10,7 +10,10 @@ namespace SE.Controllers
     public class HomeController : Controller
     {
         private HomeModel model = new HomeModel();
-        // GET: Home
+        /// <summary>
+        /// GET Home
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View(model);
