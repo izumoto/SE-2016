@@ -49,7 +49,7 @@ namespace SE.Models
         /// <param name="x">User object</param>
         public void AddEmployee(Employee x)
         {
-            x.password = db.md5(x.password);
+            x.password = LoginModel.md5(x.password);
             db.Employees.InsertOnSubmit(x);
             db.SubmitChanges();
         }
@@ -120,7 +120,7 @@ namespace SE.Models
                 if (v.password != null)
                 {
                     /// md5 format for password
-                    e.password = db.md5(v.password);
+                    e.password = LoginModel.md5(v.password);
                 }
                 db.SubmitChanges();
                 return true;
