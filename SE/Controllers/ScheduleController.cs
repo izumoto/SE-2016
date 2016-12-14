@@ -40,39 +40,9 @@ namespace SE.Controllers
             ViewBag.idRoute = new SelectList(route.GetListRoute().Select(x => new { idRoute = x.idRoute, nameRoute = x.City.nameCity + " - " + x.City1.nameCity }), "idRoute", "nameRoute");
             ViewBag.idVehicle = new SelectList(vehicle.GetListVehicle(), "idVehicle", "license");
             ViewBag.idEmployee = new SelectList(user.GetListUser(3), "idEmployee", "name");
-            if (note.checkError(v.dayStart, null))
+            if (CheckSchedule(v) != null)
             {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter day start" };
-                return View();
-            }
-            else if (note.checkError(v.dayEnd, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter day end" };
-                return View();
-            }
-            else if (note.checkError(v.idRoute, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please select route" };
-                return View();
-            }
-            else if (note.checkError(v.idTime, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please select time" };
-                return View();
-            }
-            else if (note.checkError(v.idEmployee, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please select driver" };
-                return View();
-            }
-            else if (note.checkError(v.idVehicle, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please select vehicle" };
-                return View();
-            }
-            else if (note.checkError(v.price, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter price" };
+                ViewBag.notify = CheckSchedule(v);
                 return View();
             }
             model.AddSchedule(v);
@@ -111,7 +81,7 @@ namespace SE.Controllers
         public ActionResult Edit(int id)
         {
             var v = model.Edit(id);
-            if (note.checkError(v, null))
+            if (CheckSchedule(v) != null)
             {
                 return View("Index");
             }    
@@ -129,45 +99,57 @@ namespace SE.Controllers
             ViewBag.idRoute = new SelectList(route.GetListRoute().Select(x => new { idRoute = x.idRoute, nameRoute = x.City.nameCity + " - " + x.City1.nameCity }), "idRoute", "nameRoute");
             ViewBag.idVehicle = new SelectList(vehicle.GetListVehicle(), "idVehicle", "license");
             ViewBag.idEmployee = new SelectList(user.GetListUser(3), "idEmployee", "name");
-            if (note.checkError(v.dayStart, null))
+            if (CheckSchedule(v) != null)
             {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter day start" };
-                return View();
-            }
-            else if (note.checkError(v.dayEnd, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter day end" };
-                return View();
-            }
-            else if (note.checkError(v.idRoute, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please select route" };
-                return View();
-            }
-            else if (note.checkError(v.idTime, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please select time" };
-                return View();
-            }
-            else if (note.checkError(v.idEmployee, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please select driver" };
-                return View();
-            }
-            else if (note.checkError(v.idVehicle, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please select vehicle" };
-                return View();
-            }
-            else if (note.checkError(v.price, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter price" };
+                ViewBag.notify = CheckSchedule(v);
                 return View();
             }
             model.Edit(v);
             ViewBag.notify = new Notify { status = true, msg = "Edit schedule successfull" };
             return View("Index");
         }
-        
+
+        public Notify CheckSchedule(Schedule v)
+        {
+            if (v == null)
+            {
+                return new Notify { status = false, msg = "Please input schedule" };
+            }
+            else
+            {
+                if (note.checkError(v.dayStart, null))
+                {
+                    return new Notify { status = false, msg = "Please enter day start" };
+                }
+                else if (note.checkError(v.dayEnd, null))
+                {
+                    return new Notify { status = false, msg = "Please enter day end" };
+                }
+                else if (note.checkError(v.idRoute, null))
+                {
+                    return new Notify { status = false, msg = "Please select route" };
+                }
+                else if (note.checkError(v.idTime, null))
+                {
+                    return new Notify { status = false, msg = "Please select time" };
+                }
+                else if (note.checkError(v.idEmployee, null))
+                {
+                    return new Notify { status = false, msg = "Please select driver" };
+                }
+                else if (note.checkError(v.idVehicle, null))
+                {
+                    return new Notify { status = false, msg = "Please select vehicle" };
+                }
+                else if (note.checkError(v.price, null))
+                {
+                    return new Notify { status = false, msg = "Please enter price" };
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }

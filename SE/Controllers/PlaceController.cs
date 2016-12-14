@@ -53,9 +53,9 @@ namespace SE.Controllers
         [HttpPost]
         public ActionResult CreateCity(City v)
         {
-            if (note.checkError(v.nameCity, null))
+            if (CheckCity(v) != null)
             {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your city name" };
+                ViewBag.notify = CheckCity(v);
                 return View();
             }
             model.AddCity(v);
@@ -73,14 +73,11 @@ namespace SE.Controllers
         [HttpPost]
         public ActionResult CreateRoute(Route v)
         {
-            if (note.checkError(v.idFrom, null))
+            ViewBag.idFrom = new SelectList(model.GetListCity(), "idCity", "nameCity", v.idFrom);
+            ViewBag.idTo = new SelectList(model.GetListCity(), "idCity", "nameCity", v.idTo);
+            if (CheckRoute(v) != null)
             {
-                ViewBag.notify = new Notify { status = false, msg = "Please select city from" };
-                return View();
-            }
-            else if (note.checkError(v.idTo, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please select city to" };
+                ViewBag.notify = CheckRoute(v);
                 return View();
             }
             model.AddRoute(v);
@@ -97,7 +94,7 @@ namespace SE.Controllers
         public ActionResult EditCity(int id)
         {
             var v = model.EditCity(id);
-            if (note.checkError(v, null))
+            if (CheckCity(v) != null)
             {
                 return View("Index");
             }  
@@ -107,9 +104,9 @@ namespace SE.Controllers
         [HttpPost]
         public ActionResult EditCity(City v)
         {
-            if (note.checkError(v.nameCity, null))
+            if (CheckCity(v) != null)
             {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your city name" };
+                ViewBag.notify = CheckCity(v);
                 return View();
             }
             model.EditCity(v);
@@ -126,7 +123,7 @@ namespace SE.Controllers
         public ActionResult EditRoute(int id)
         {
             var v = model.EditRoute(id);
-            if (note.checkError(v, null))
+            if (CheckRoute(v) != null)
             {
                 return View("Index");
             }
@@ -138,19 +135,62 @@ namespace SE.Controllers
         [HttpPost]
         public ActionResult EditRoute(Route v)
         {
-            if (note.checkError(v.idFrom, null))
+            ViewBag.idFrom = new SelectList(model.GetListCity(), "idCity", "nameCity", v.idFrom);
+            ViewBag.idTo = new SelectList(model.GetListCity(), "idCity", "nameCity", v.idTo);
+            if (CheckRoute(v) != null)
             {
-                ViewBag.notify = new Notify { status = false, msg = "Please select city from" };
-                return View();
-            }
-            else if (note.checkError(v.idTo, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please select city to" };
+                ViewBag.notify = CheckRoute(v);
                 return View();
             }
             model.EditRoute(v);
             ViewBag.notify = new Notify { status = true, msg = "Edit route successfull" };
             return View("Index");
+        }
+
+        public Notify CheckCity(City v)
+        {
+            if (v == null)
+            {
+                return new Notify { status = false, msg = "Please input city" };
+            }
+            else
+            {
+                if (note.checkError(v.nameCity, null))
+                {
+                    return new Notify { status = false, msg = "Please enter your city name" };
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public Notify CheckRoute(Route v)
+        {
+            if (v == null)
+            {
+                return new Notify { status = false, msg = "Please input route" };
+            }
+            else
+            {
+                if (note.checkError(v.idFrom, null))
+                {
+                    return new Notify { status = false, msg = "Please select city from" };
+                }
+                else if (note.checkError(v.idTo, null))
+                {
+                    return new Notify { status = false, msg = "Please select city to" };
+                }
+                else if (v.idFrom == v.idTo)
+                {
+                    return new Notify { status = false, msg = "Don't select one city for from and to" };
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
     }
 }

@@ -31,44 +31,9 @@ namespace SE.Controllers
         public ActionResult Create(Employee v)
         {
             ViewBag.idTypeE = new SelectList(model.GetListPos(), "idTypeE", "nameTypeE");
-            if (note.checkError(v.name, null))
+            if (CheckUser(v) != null)
             {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your name" };              
-                return View();
-            }
-            else if (note.checkError(v.username, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your username" };
-                return View();
-            }
-            else if (note.checkError(v.password, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your password" };
-                return View();
-            }
-            else if (note.checkError(v.address, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your address" };
-                return View();
-            }
-            else if (note.checkError(v.phone, "number"))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your phone" };
-                return View();
-            }
-            else if (note.checkError(v.idcard, "number"))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your idcard" };
-                return View();
-            }
-            else if (note.checkError(v.birthday, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your birthday" };
-                return View();
-            }
-            else if (note.checkError(v.startday, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your startday" };
+                ViewBag.notify = CheckUser(v);
                 return View();
             }
             model.AddEmployee(v);
@@ -100,7 +65,7 @@ namespace SE.Controllers
         public ActionResult Edit(int id)
         {
             var v = model.Edit(id);
-            if (note.checkError(v, null))
+            if (CheckUser(v) != null)
             {
                 return View("Index");
             }   
@@ -112,45 +77,57 @@ namespace SE.Controllers
         public ActionResult Edit(Employee v)
         {
             ViewBag.idTypeE = new SelectList(model.GetListPos(), "idTypeE", "nameTypeE");
-            if (note.checkError(v.name, null))
+            if (CheckUser(v) != null)
             {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your name" };
-                return View();
-            }
-            else if (note.checkError(v.username, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your username" };
-                return View();
-            }
-            else if (note.checkError(v.address, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your address" };
-                return View();
-            }
-            else if (note.checkError(v.phone, "number"))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your phone" };
-                return View();
-            }
-            else if (note.checkError(v.idcard, "number"))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your idcard" };
-                return View();
-            }
-            else if (note.checkError(v.birthday, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your birthday" };
-                return View();
-            }
-            else if (note.checkError(v.startday, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your startday" };
+                ViewBag.notify = CheckUser(v);
                 return View();
             }
             model.Edit(v);
             ViewBag.notify = new Notify { status = true, msg = "Edit user successfull" };
             return View("Index");
         }
-        
+
+        public Notify CheckUser(Employee v)
+        {
+            if (v == null)
+            {
+                return new Notify { status = false, msg = "Please input employee" };
+            }
+            else
+            {
+                if (note.checkError(v.name, null))
+                {
+                    return new Notify { status = false, msg = "Please enter your name" };
+                }
+                else if (note.checkError(v.username, null))
+                {
+                    return new Notify { status = false, msg = "Please enter your username" };
+                }
+                else if (note.checkError(v.address, null))
+                {
+                    return new Notify { status = false, msg = "Please enter your address" };
+                }
+                else if (note.checkError(v.phone, "number"))
+                {
+                    return new Notify { status = false, msg = "Please enter your phone" };
+                }
+                else if (note.checkError(v.idcard, "number"))
+                {
+                    return new Notify { status = false, msg = "Please enter your idcard" };
+                }
+                else if (note.checkError(v.birthday, null))
+                {
+                    return new Notify { status = false, msg = "Please enter your birthday" };
+                }
+                else if (note.checkError(v.startday, null))
+                {
+                    return new Notify { status = false, msg = "Please enter your startday" };
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }

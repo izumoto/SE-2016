@@ -29,14 +29,9 @@ namespace SE.Controllers
         [HttpPost]
         public ActionResult Create(Vehicle v)
         {
-            if (note.checkError(v.license, null))
+            if (CheckVehicle(v) != null)
             {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your license" };
-                return View();
-            }
-            else if (note.checkError(v.dayImport, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your day import" };
+                ViewBag.notify = CheckVehicle(v);
                 return View();
             }
             model.AddVehicle(v);
@@ -66,7 +61,7 @@ namespace SE.Controllers
         public ActionResult Edit(int id)
         {
             var v = model.Edit(id);
-            if (note.checkError(v, null))
+            if (CheckVehicle(v) != null)
             {
                 return View("Index");
             }
@@ -76,19 +71,37 @@ namespace SE.Controllers
         [HttpPost]
         public ActionResult Edit(Vehicle v)
         {
-            if (note.checkError(v.license, null))
+            if (CheckVehicle(v) != null)
             {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your license" };
-                return View();
-            }
-            else if (note.checkError(v.dayImport, null))
-            {
-                ViewBag.notify = new Notify { status = false, msg = "Please enter your day import" };
+                ViewBag.notify = CheckVehicle(v);
                 return View();
             }
             model.Edit(v);
             ViewBag.notify = new Notify { status = true, msg = "Edit vehicle successfull" };
             return View("Index");
+        }
+
+        public Notify CheckVehicle(Vehicle v)
+        {
+            if (v == null)
+            {
+                return new Notify { status = false, msg = "Please input vehicle" };
+            }
+            else
+            {
+                if (note.checkError(v.license, null))
+                {
+                    return new Notify { status = false, msg = "Please enter your license" };
+                }
+                else if (note.checkError(v.dayImport, null))
+                {
+                    return new Notify { status = false, msg = "Please enter your day import" };
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
     }
 }
