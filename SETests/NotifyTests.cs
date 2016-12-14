@@ -11,6 +11,9 @@ namespace SE.Tests
     [TestClass()]
     public class NotifyTests
     {
+        /// <summary>
+        /// Test
+        /// </summary>
         [TestMethod()]
         public void checkErrorTest()
         {
