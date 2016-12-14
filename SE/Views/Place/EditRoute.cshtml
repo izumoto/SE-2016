@@ -1,7 +1,7 @@
 ﻿@model SE.Models.Route
 
 @{
-    ViewBag.Title = "EditRoute";
+    ViewBag.Title = "Edit Route";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,22 +10,29 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @if (ViewBag.notify != null)
+        {
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <div class="alert bg-@(ViewBag.notify.status ? "success":"danger" )" role="alert">
+                        <svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg>@ViewBag.notify.msg
+                    </div>
+                </div>
+            </div>
+        }
         @Html.HiddenFor(model => model.idRoute)
 
         <div class="form-group">
             <label class="control-label col-md-2" for="idFrom">From</label>
-            <div class="col-md-10">
+            <div class="col-md-3">
                 @Html.DropDownList("idFrom", null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.idFrom, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-2" for="idTo">To</label>
-            <div class="col-md-10">
+            <div class="col-md-3">
                 @Html.DropDownList("idTo", null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.idTo, "", new { @class = "text-danger" })
             </div>
         </div>
 

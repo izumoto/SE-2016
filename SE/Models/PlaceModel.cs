@@ -18,13 +18,6 @@ namespace SE.Models
             return list;
         }
 
-        public String GetNameCity(int? id)
-        {
-            var data = from s in db.Cities where s.idCity == id select s.nameCity;
-
-            return data.SingleOrDefault().ToString();
-        }
-
         public List<Route> GetListRoute()
         {
             var data = from s in db.Routes select s;
@@ -48,13 +41,13 @@ namespace SE.Models
 
         public bool DeleteCity(int id)
         {
-            var data = (from s in db.Cities where s.idCity == id select s).Single();
+            var data = from s in db.Cities where s.idCity == id select s;
 
-            if (data == null)
+            if (data.Count() == 0)
                 return false;
             else
             {
-                db.Cities.DeleteOnSubmit(data);
+                db.Cities.DeleteOnSubmit(data.Single());
 
                 db.SubmitChanges();
 
@@ -64,13 +57,13 @@ namespace SE.Models
 
         public bool DeleteRoute(int id)
         {
-            var data = (from s in db.Routes where s.idRoute == id select s).Single();
+            var data = from s in db.Routes where s.idRoute == id select s;
 
-            if (data == null)
+            if (data.Count() == 0)
                 return false;
             else
             {
-                db.Routes.DeleteOnSubmit(data);
+                db.Routes.DeleteOnSubmit(data.Single());
 
                 db.SubmitChanges();
 
@@ -80,20 +73,25 @@ namespace SE.Models
 
         public City EditCity(int id)
         {
-            var data = (from s in db.Cities where s.idCity == id select s).Single();
+            var data = from s in db.Cities where s.idCity == id select s;
 
-            return data;
+            if (data.Count() == 0)
+                return null;
+            else
+                return data.Single();
         }
 
         public bool EditCity(City v)
         {
-            var data = (from s in db.Cities where s.idCity == v.idCity select s).Single();
+            var data = from s in db.Cities where s.idCity == v.idCity select s;
 
-            if (data == null)
+            if (data.Count() == 0)
                 return false;
             else
             {
-                data.nameCity = v.nameCity;
+                var e = data.Single();
+
+                e.nameCity = v.nameCity;
 
                 db.SubmitChanges();
 
@@ -103,21 +101,26 @@ namespace SE.Models
 
         public Route EditRoute(int id)
         {
-            var data = (from s in db.Routes where s.idRoute == id select s).Single();
+            var data = from s in db.Routes where s.idRoute == id select s;
 
-            return data;
+            if (data.Count() == 0)
+                return null;
+            else
+                return data.Single();
         }
 
         public bool EditRoute(Route v)
         {
-            var data = (from s in db.Routes where s.idRoute == v.idRoute select s).Single();
+            var data = from s in db.Routes where s.idRoute == v.idRoute select s;
 
-            if (data == null)
+            if (data.Count() == 0)
                 return false;
             else
             {
-                data.idFrom = v.idFrom;
-                data.idTo = v.idTo;
+                var e = data.Single();
+
+                e.idFrom = v.idFrom;
+                e.idTo = v.idTo;
 
                 db.SubmitChanges();
 

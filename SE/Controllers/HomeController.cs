@@ -9,10 +9,11 @@ namespace SE.Controllers
 {
     public class HomeController : Controller
     {
+        private HomeModel model = new HomeModel();
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            return View(model);
         }
 
     }

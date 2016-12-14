@@ -1,0 +1,59 @@
+﻿@model SE.Models.Ticket
+
+@{
+    ViewBag.Title = "Sell Ticket";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    SE.Models.Employee user = (SE.Models.Employee)Session["user"];
+}
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @if (ViewBag.notify != null)
+        {
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <div class="alert bg-@(ViewBag.notify.status ? "success":"danger" )" role="alert">
+                        <svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg>@ViewBag.notify.msg
+                    </div>
+                </div>
+            </div>
+        }
+
+        <input class="hidden" id="idEmployee" name="idEmployee" value="@user.idEmployee" />
+        <input class="hidden" id="idSchedule" name="idSchedule" value="@ViewBag.idSchedule" />
+        <input class="hidden" id="idSit" name="idSit" value="@ViewBag.sit" />
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="customer">Customer</label>
+            <div class="col-md-3">
+                @Html.DropDownList("idCustomer", null, new { @class = "form-control" })
+            </div>
+            <a href="@Url.Action("Create","Customer", new { ID = ViewBag.sit, idSchedule = ViewBag.idSchedule }) " class="btn btn-success col-md-1">New</a>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="status">Status</label>
+            <div class="col-md-3">
+                @Html.DropDownList("idStatus", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="daycreate">Date Create</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.dateCreate, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled"} })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

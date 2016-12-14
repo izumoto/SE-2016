@@ -1,4 +1,4 @@
-﻿
+﻿@model SE.Models.HomeModel
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,8 +11,8 @@
                         <svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>
                     </div>
                     <div class="col-sm-9 col-lg-7 widget-right">
-                        <div class="large">120</div>
-                        <div class="text-muted">New Orders</div>
+                        <div class="large">@Model.CountOrders()</div>
+                        <div class="text-muted">Orders</div>
                     </div>
                 </div>
             </div>
@@ -24,8 +24,8 @@
                         <svg class="glyph stroked location pin"><use xlink:href="#stroked-location-pin" /></svg>
                     </div>
                     <div class="col-sm-9 col-lg-7 widget-right">
-                        <div class="large">32</div>
-                        <div class="text-muted">New Routes</div>
+                        <div class="large">@Model.CountRoutes()</div>
+                        <div class="text-muted">Routes</div>
                     </div>
                 </div>
             </div>
@@ -37,8 +37,8 @@
                         <svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar" /></svg>
                     </div>
                     <div class="col-sm-9 col-lg-7 widget-right">
-                        <div class="large">52</div>
-                        <div class="text-muted">New Schedules</div>
+                        <div class="large">@Model.CountSchedules()</div>
+                        <div class="text-muted">Schedules</div>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                         <svg class="glyph stroked app-window"><use xlink:href="#stroked-app-window"></use></svg>
                     </div>
                     <div class="col-sm-9 col-lg-7 widget-right">
-                        <div class="large">500,000</div>
+                        <div class="large">@Model.CountSales()</div>
                         <div class="text-muted">Sales</div>
                     </div>
                 </div>
@@ -58,46 +58,4 @@
         </div>
     </div><!--/.row-->
 
-    <div class="row">
-        <div class="col-xs-6 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
-                    <h4>New Tickets</h4>
-                    <div class="easypiechart" id="easypiechart-blue" data-percent="92">
-                        <span class="percent">92%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
-                    <h4>New Routes</h4>
-                    <div class="easypiechart" id="easypiechart-orange" data-percent="65">
-                        <span class="percent">65%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
-                    <h4>New Schedules</h4>
-                    <div class="easypiechart" id="easypiechart-teal" data-percent="56">
-                        <span class="percent">56%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
-                    <h4>Sales</h4>
-                    <div class="easypiechart" id="easypiechart-red" data-percent="130">
-                        <span class="percent">130%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!--/.row-->
 

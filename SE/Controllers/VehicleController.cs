@@ -10,6 +10,8 @@ namespace SE.Controllers
     public class VehicleController : Controller
     {
         private VehicleModel model = new VehicleModel();
+        private Notify note = new Notify();
+
         // GET: Vehicle
         public ActionResult Index()
         {
@@ -22,14 +24,24 @@ namespace SE.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Vehicle x)
+        public ActionResult Create(Vehicle v)
         {
-            if (x.license == null | x.dayImport == null)
+            if (note.checkError(v.license, null))
+            {
+                ViewBag.notify = new Notify { status = false, msg = "Please enter your license" };
                 return View();
+            }
+            else if (note.checkError(v.dayImport, null))
+            {
+                ViewBag.notify = new Notify { status = false, msg = "Please enter your day import" };
+                return View();
+            }
 
-            model.AddVehicle(x);
+            model.AddVehicle(v);
 
-            return RedirectToAction("Index");
+            ViewBag.notify = new Notify { status = true, msg = "Add vehicle successfull" };
+
+            return View("Index");
         }
 
         public JsonResult GetListVehicle()
@@ -50,12 +62,15 @@ namespace SE.Controllers
         public ActionResult Delete(int id)
         {
             model.Delete(id);
-            return RedirectToAction("Index");
+            return View("Index");
         }
 
         public ActionResult Edit(int id)
         {
             var v = model.Edit(id);
+
+            if (note.checkError(v, null))
+                return View("Index");
 
             return View(v);
         }
@@ -63,12 +78,22 @@ namespace SE.Controllers
         [HttpPost]
         public ActionResult Edit(Vehicle v)
         {
-            if (v.license == null | v.dayImport == null)
+            if (note.checkError(v.license, null))
+            {
+                ViewBag.notify = new Notify { status = false, msg = "Please enter your license" };
                 return View();
+            }
+            else if (note.checkError(v.dayImport, null))
+            {
+                ViewBag.notify = new Notify { status = false, msg = "Please enter your day import" };
+                return View();
+            }
 
             model.Edit(v);
 
-            return RedirectToAction("Index");
+            ViewBag.notify = new Notify { status = true, msg = "Edit vehicle successfull" };
+
+            return View("Index");
         }
     }
 }

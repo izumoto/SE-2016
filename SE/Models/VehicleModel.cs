@@ -27,13 +27,13 @@ namespace SE.Models
 
         public bool Delete(int id)
         {
-            var data = (from s in db.Vehicles where s.idVehicle == id select s).Single();
+            var data = from s in db.Vehicles where s.idVehicle == id select s;
 
-            if (data == null)
+            if (data.Count() == 0)
                 return false;
             else
             {
-                db.Vehicles.DeleteOnSubmit(data);
+                db.Vehicles.DeleteOnSubmit(data.Single());
 
                 db.SubmitChanges();
 
@@ -43,21 +43,26 @@ namespace SE.Models
 
         public Vehicle Edit(int id)
         {
-            var data = (from s in db.Vehicles where s.idVehicle == id select s).Single();
+            var data = from s in db.Vehicles where s.idVehicle == id select s;
 
-            return data;
+            if (data.Count() == 0)
+                return null;
+            else
+                return data.Single();
         }
 
         public bool Edit(Vehicle v)
         {
-            var data = (from s in db.Vehicles where s.idVehicle == v.idVehicle select s).Single();
+            var data = from s in db.Vehicles where s.idVehicle == v.idVehicle select s;
 
-            if (data == null)
+            if (data.Count() == 0)
                 return false;
             else
             {
-                data.license = v.license;
-                data.dayImport = v.dayImport;
+                var e = data.Single();
+
+                e.license = v.license;
+                e.dayImport = v.dayImport;
 
                 db.SubmitChanges();
 

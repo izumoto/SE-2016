@@ -1523,7 +1523,7 @@ namespace SE.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Ticket", Storage="_Tickets", ThisKey="idSchedule", OtherKey="idShedule")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Ticket", Storage="_Tickets", ThisKey="idSchedule", OtherKey="idSchedule")]
 		public EntitySet<Ticket> Tickets
 		{
 			get
@@ -2012,7 +2012,7 @@ namespace SE.Models
 		
 		private System.Nullable<int> _idSit;
 		
-		private System.Nullable<int> _idShedule;
+		private System.Nullable<int> _idSchedule;
 		
 		private System.Nullable<int> _idEmployee;
 		
@@ -2040,8 +2040,8 @@ namespace SE.Models
     partial void OnidStatusChanged();
     partial void OnidSitChanging(System.Nullable<int> value);
     partial void OnidSitChanged();
-    partial void OnidSheduleChanging(System.Nullable<int> value);
-    partial void OnidSheduleChanged();
+    partial void OnidScheduleChanging(System.Nullable<int> value);
+    partial void OnidScheduleChanged();
     partial void OnidEmployeeChanging(System.Nullable<int> value);
     partial void OnidEmployeeChanged();
     partial void OndateCreateChanging(System.Nullable<System.DateTime> value);
@@ -2150,26 +2150,26 @@ namespace SE.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idShedule", DbType="Int")]
-		public System.Nullable<int> idShedule
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idSchedule", DbType="Int")]
+		public System.Nullable<int> idSchedule
 		{
 			get
 			{
-				return this._idShedule;
+				return this._idSchedule;
 			}
 			set
 			{
-				if ((this._idShedule != value))
+				if ((this._idSchedule != value))
 				{
 					if (this._Schedule.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnidSheduleChanging(value);
+					this.OnidScheduleChanging(value);
 					this.SendPropertyChanging();
-					this._idShedule = value;
-					this.SendPropertyChanged("idShedule");
-					this.OnidSheduleChanged();
+					this._idSchedule = value;
+					this.SendPropertyChanged("idSchedule");
+					this.OnidScheduleChanged();
 				}
 			}
 		}
@@ -2286,7 +2286,7 @@ namespace SE.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Ticket", Storage="_Schedule", ThisKey="idShedule", OtherKey="idSchedule", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Ticket", Storage="_Schedule", ThisKey="idSchedule", OtherKey="idSchedule", IsForeignKey=true)]
 		public Schedule Schedule
 		{
 			get
@@ -2309,11 +2309,11 @@ namespace SE.Models
 					if ((value != null))
 					{
 						value.Tickets.Add(this);
-						this._idShedule = value.idSchedule;
+						this._idSchedule = value.idSchedule;
 					}
 					else
 					{
-						this._idShedule = default(Nullable<int>);
+						this._idSchedule = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Schedule");
 				}

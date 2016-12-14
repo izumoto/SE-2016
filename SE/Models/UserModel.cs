@@ -18,6 +18,15 @@ namespace SE.Models
             return list;
         }
 
+        public List<Employee> GetListUser(int id)
+        {
+            var data = from s in db.Employees where s.idTypeE == id select s;
+
+            List<Employee> list = data.ToList<Employee>();
+
+            return list;
+        }
+
         public List<EmployeeType> GetListPos()
         {
             var data = from s in db.EmployeeTypes select s;
@@ -25,13 +34,6 @@ namespace SE.Models
             List<EmployeeType> list = data.ToList<EmployeeType>();
 
             return list;
-        }
-
-        public string GetPosition(System.Nullable<int> id)
-        {
-            var data = from s in db.EmployeeTypes where s.idTypeE == id select s.nameTypeE;
-
-            return data.SingleOrDefault();
         }
 
         public void AddEmployee(Employee x)
@@ -43,13 +45,13 @@ namespace SE.Models
 
         public bool Delete(int id)
         {
-            var data = (from s in db.Employees where s.idEmployee == id select s).Single();
+            var data = from s in db.Employees where s.idEmployee == id select s;
 
-            if (data == null)
+            if (data.Count() == 0)
                 return false;
             else
             {
-                db.Employees.DeleteOnSubmit(data);
+                db.Employees.DeleteOnSubmit(data.Single());
 
                 db.SubmitChanges();
 
@@ -59,28 +61,35 @@ namespace SE.Models
 
         public Employee Edit(int id)
         {
-            var data = (from s in db.Employees where s.idEmployee == id select s).Single();
+            var data = from s in db.Employees where s.idEmployee == id select s;
 
-            return data;
+            if (data.Count() == 0)
+                return null;
+            else
+                return data.Single();
         }
 
         public bool Edit(Employee v)
         {
-            var data = (from s in db.Employees where s.idEmployee == v.idEmployee select s).Single();
+            var data = from s in db.Employees where s.idEmployee == v.idEmployee select s;
 
-            if (data == null)
+            if (data.Count() == 0)
                 return false;
             else
             {
-                data.idTypeE = v.idTypeE;
-                data.username = v.username;
-                data.name = v.name;
-                data.phone = v.phone;
-                data.idcard = v.idcard;
-                data.address = v.address;
-                data.sex = v.sex;
-                data.birthday = v.birthday;
-                data.startday = v.startday;
+                var e = data.Single();
+                 
+                e.idTypeE = v.idTypeE;
+                e.username = v.username;
+                e.name = v.name;
+                e.phone = v.phone;
+                e.idcard = v.idcard;
+                e.address = v.address;
+                e.sex = v.sex;
+                e.birthday = v.birthday;
+                e.startday = v.startday;
+                if (v.password != null)
+                    e.password = db.md5(v.password);
 
                 db.SubmitChanges();
 

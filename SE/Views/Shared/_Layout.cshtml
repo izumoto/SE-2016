@@ -44,8 +44,8 @@
                     <li class="dropdown pull-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> @user.name <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
-                            <li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
+                            <!--<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
+                            <li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>-->
                             <li><a href="@Url.Action("Logout","Login")"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
                         </ul>
                     </li>
@@ -126,14 +126,27 @@
     <script src="~/Asset/js/bootstrap-datepicker.js"></script>
     <script src="~/Asset/js/bootstrap-table.js"></script>
     <script>
-		$('#calendar').datepicker({
-		});
-		$("#dayImport").datepicker({
-		});
+        $('#calendar').datepicker({
+            format: "dd/mm/yyyy"
+        });
+        $("#dayImport").datepicker({
+            format: "dd/mm/yyyy"
+        }).datepicker("setDate", "0");
 		$("#birthday").datepicker({
-		});
+		    format: "dd/mm/yyyy"
+		}).datepicker("setDate", "0");
 		$("#startday").datepicker({
-		});
+		    format: "dd/mm/yyyy"
+		}).datepicker("setDate", "0");
+		$("#dayStart").datepicker({
+		    format: "dd/mm/yyyy"
+		}).datepicker("setDate", "0");
+		$("#dayEnd").datepicker({
+		    format: "dd/mm/yyyy"
+		}).datepicker("setDate", "0");
+		$("#dateCreate").datepicker({
+		    format: "dd/mm/yyyy"
+		}).datepicker("setDate", "0");
 
 		!function ($) {
 		    $(document).on("click","ul.nav li.parent > a > span.icon", function(){

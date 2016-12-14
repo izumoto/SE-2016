@@ -10,6 +10,7 @@ namespace SE.Controllers
     public class PlaceController : Controller
     {
         private PlaceModel model = new PlaceModel();
+        private Notify note = new Notify();
 
         // GET: Route
         public ActionResult Index()
@@ -38,7 +39,7 @@ namespace SE.Controllers
             JsonResult result = Json(data.Select(
                 x => new {
                     id = x.idRoute,
-                    name = model.GetNameCity(x.idFrom) + " - " + model.GetNameCity(x.idTo),
+                    name = x.City.nameCity + " - " + x.City1.nameCity,
                     action = ("<div class=\"todo-list-item\" style=\"padding:0\"><a title=\"Edit\" href=\"" + Url.Action("EditRoute", new { ID = x.idRoute }) + "\" ><svg class=\"glyph stroked pencil\" style=\"width:20px; height: 20px\"><use xlink:href=\"#stroked-pencil\"></use></svg></a>&nbsp;&nbsp;<a title=\"Delete\" href = \"" + Url.Action("DeleteRoute", new { ID = x.idRoute }) + "\" class=\"trash\"><svg class=\"glyph stroked trash\" style=\"width:20px; height: 20px\"><use xlink:href=\"#stroked-trash\"></use></svg></a></div>").ToString()
                 }), JsonRequestBehavior.AllowGet);
 
@@ -51,14 +52,19 @@ namespace SE.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateCity(City x)
+        public ActionResult CreateCity(City v)
         {
-            if (x.nameCity == null)
+            if (note.checkError(v.nameCity, null))
+            {
+                ViewBag.notify = new Notify { status = false, msg = "Please enter your city name" };
                 return View();
+            }
 
-            model.AddCity(x);
+            model.AddCity(v);
 
-            return RedirectToAction("Index");
+            ViewBag.notify = new Notify { status = true, msg = "Add city successfull" };
+
+            return View("Index");
         }
 
         public ActionResult CreateRoute()
@@ -70,25 +76,38 @@ namespace SE.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateRoute(Route x)
+        public ActionResult CreateRoute(Route v)
         {
-            if (x.idFrom == null | x.idTo == null)
+            if (note.checkError(v.idFrom, null))
+            {
+                ViewBag.notify = new Notify { status = false, msg = "Please select city from" };
                 return View();
+            }
+            else if (note.checkError(v.idTo, null))
+            {
+                ViewBag.notify = new Notify { status = false, msg = "Please select city to" };
+                return View();
+            }
 
-            model.AddRoute(x);
+            model.AddRoute(v);
 
-            return RedirectToAction("Index");
+            ViewBag.notify = new Notify { status = true, msg = "Add route successfull" };
+
+            return View("Index");
         }
 
         public ActionResult DeleteCity(int id)
         {
             model.DeleteCity(id);
-            return RedirectToAction("Index");
+            return View("Index");
         }
 
         public ActionResult EditCity(int id)
         {
             var v = model.EditCity(id);
+
+            if (note.checkError(v, null))
+                return View("Index");
 
             return View(v);
         }
@@ -96,23 +115,33 @@ namespace SE.Controllers
         [HttpPost]
         public ActionResult EditCity(City v)
         {
-            if (v.nameCity == null)
+            if (note.checkError(v.nameCity, null))
+            {
+                ViewBag.notify = new Notify { status = false, msg = "Please enter your city name" };
                 return View();
+            }
 
             model.EditCity(v);
 
-            return RedirectToAction("Index");
+            ViewBag.notify = new Notify { status = true, msg = "Edit city successfull" };
+
+            return View("Index");
         }
 
         public ActionResult DeleteRoute(int id)
         {
             model.DeleteRoute(id);
-            return RedirectToAction("Index");
+            return View("Index");
         }
 
         public ActionResult EditRoute(int id)
         {
             var v = model.EditRoute(id);
+
+            if (note.checkError(v, null))
+            {
+                return View("Index");
+            }
 
             ViewBag.idFrom = new SelectList(model.GetListCity(), "idCity", "nameCity", v.idFrom);
             ViewBag.idTo = new SelectList(model.GetListCity(), "idCity", "nameCity", v.idTo);
@@ -123,12 +152,22 @@ namespace SE.Controllers
         [HttpPost]
         public ActionResult EditRoute(Route v)
         {
-            if (v.idFrom == null | v.idTo == null)
+            if (note.checkError(v.idFrom, null))
+            {
+                ViewBag.notify = new Notify { status = false, msg = "Please select city from" };
                 return View();
+            }
+            else if (note.checkError(v.idTo, null))
+            {
+                ViewBag.notify = new Notify { status = false, msg = "Please select city to" };
+                return View();
+            }
 
             model.EditRoute(v);
 
-            return RedirectToAction("Index");
+            ViewBag.notify = new Notify { status = true, msg = "Edit route successfull" };
+
+            return View("Index");
         }
     }
 }

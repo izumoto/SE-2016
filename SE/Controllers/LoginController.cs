@@ -19,8 +19,13 @@ namespace SE.Controllers
         public ActionResult Index(LoginModel model)
         {
             var user = model.CheckUser();
-            if (user != null)
-                Session["user"] = user;
+            if (user == null)
+            {
+                ViewBag.notify = new Notify { status = false, msg = "Please enter correct Username and Password." };
+                return View();
+            }
+            Session["user"] = user;
+
             return Redirect(Url.Action("Index","Home"));
         }
         public ActionResult Logout()

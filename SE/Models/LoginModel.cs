@@ -14,10 +14,11 @@ namespace SE.Models
         [Required(ErrorMessage = "Please enter your password")]
         public string Password { get; set; }
 
-        public bool RememberMe { get; set; }
-
         public Employee CheckUser()
         {
+            if (UserName == null | Password == null)
+                return null;
+
             DBDataContext db = new DBDataContext();
 
             var result = db.Employees.SingleOrDefault(x => x.username == UserName);
