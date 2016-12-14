@@ -20,17 +20,22 @@ namespace SE.Models
     using System.Linq.Expressions;
     using System.ComponentModel;
     using System;
-    using System.Text;
     using System.Security.Cryptography;
+    using System.Text;
 
     [global::System.Data.Linq.Mapping.DatabaseAttribute(Name="Company")]
 	public partial class DBDataContext : System.Data.Linq.DataContext
 	{
 		
 		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
-		
-    #region Extensibility Method Definitions
-    partial void OnCreated();
+
+        internal string md5(string password)
+        {
+            return string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(password)).Select(s => s.ToString("x2")));
+        }
+
+        #region Extensibility Method Definitions
+        partial void OnCreated();
     partial void InsertCity(City instance);
     partial void UpdateCity(City instance);
     partial void DeleteCity(City instance);
@@ -67,7 +72,7 @@ namespace SE.Models
     #endregion
 		
 		public DBDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["CompanyConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["CompanyConnectionString1"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -95,21 +100,8 @@ namespace SE.Models
 		{
 			OnCreated();
 		}
-
-        public string md5(string input)
-        {
-            StringBuilder hash = new StringBuilder();
-            MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
-            byte[] bytes = md5provider.ComputeHash(new UTF8Encoding().GetBytes(input));
-
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                hash.Append(bytes[i].ToString("x2"));
-            }
-            return hash.ToString();
-        }
-
-        public System.Data.Linq.Table<City> Cities
+		
+		public System.Data.Linq.Table<City> Cities
 		{
 			get
 			{
@@ -1717,8 +1709,6 @@ namespace SE.Models
 		
 		private string _nameSit;
 		
-		private EntitySet<Ticket> _Tickets;
-		
 		private EntityRef<Vehicle> _Vehicle;
 		
     #region Extensibility Method Definitions
@@ -1735,7 +1725,6 @@ namespace SE.Models
 		
 		public Sit()
 		{
-			this._Tickets = new EntitySet<Ticket>(new Action<Ticket>(this.attach_Tickets), new Action<Ticket>(this.detach_Tickets));
 			this._Vehicle = default(EntityRef<Vehicle>);
 			OnCreated();
 		}
@@ -1804,19 +1793,6 @@ namespace SE.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Sit_Ticket", Storage="_Tickets", ThisKey="idSit", OtherKey="idSit")]
-		public EntitySet<Ticket> Tickets
-		{
-			get
-			{
-				return this._Tickets;
-			}
-			set
-			{
-				this._Tickets.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vehicle_Sit", Storage="_Vehicle", ThisKey="idVehicle", OtherKey="idVehicle", IsForeignKey=true)]
 		public Vehicle Vehicle
 		{
@@ -1869,18 +1845,6 @@ namespace SE.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Tickets(Ticket entity)
-		{
-			this.SendPropertyChanging();
-			entity.Sit = this;
-		}
-		
-		private void detach_Tickets(Ticket entity)
-		{
-			this.SendPropertyChanging();
-			entity.Sit = null;
 		}
 	}
 	
@@ -2024,8 +1988,6 @@ namespace SE.Models
 		
 		private EntityRef<Schedule> _Schedule;
 		
-		private EntityRef<Sit> _Sit;
-		
 		private EntityRef<StatusPay> _StatusPay;
 		
     #region Extensibility Method Definitions
@@ -2053,7 +2015,6 @@ namespace SE.Models
 			this._Customer = default(EntityRef<Customer>);
 			this._Employee = default(EntityRef<Employee>);
 			this._Schedule = default(EntityRef<Schedule>);
-			this._Sit = default(EntityRef<Sit>);
 			this._StatusPay = default(EntityRef<StatusPay>);
 			OnCreated();
 		}
@@ -2137,10 +2098,6 @@ namespace SE.Models
 			{
 				if ((this._idSit != value))
 				{
-					if (this._Sit.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnidSitChanging(value);
 					this.SendPropertyChanging();
 					this._idSit = value;
@@ -2316,40 +2273,6 @@ namespace SE.Models
 						this._idSchedule = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Schedule");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Sit_Ticket", Storage="_Sit", ThisKey="idSit", OtherKey="idSit", IsForeignKey=true)]
-		public Sit Sit
-		{
-			get
-			{
-				return this._Sit.Entity;
-			}
-			set
-			{
-				Sit previousValue = this._Sit.Entity;
-				if (((previousValue != value) 
-							|| (this._Sit.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Sit.Entity = null;
-						previousValue.Tickets.Remove(this);
-					}
-					this._Sit.Entity = value;
-					if ((value != null))
-					{
-						value.Tickets.Add(this);
-						this._idSit = value.idSit;
-					}
-					else
-					{
-						this._idSit = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Sit");
 				}
 			}
 		}

@@ -14,18 +14,18 @@ namespace SE.Controllers
         private CustomerModel customer = new CustomerModel();
         private Notify note = new Notify();
 
-        // GET: Ticket
+        /// <summary>
+        /// GET: Ticket
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             if (Session["schedule"] != null)
             {
                 int idSchedule = ((ListTicket)Session["schedule"]).idSchedule;
-
                 List<Ticket> ticket = model.GetListTicket(Convert.ToInt32(idSchedule));
-
                 Session["schedule"] = new ListTicket { idSchedule = Convert.ToInt32(idSchedule), ticket = ticket };
-            }
-            
+            }        
             return View();
         }
 
@@ -35,7 +35,6 @@ namespace SE.Controllers
             ViewBag.idSchedule = Request.Params["idschedule"].ToString();
             ViewBag.idStatus = new SelectList(model.GetListStatus(), "idStatus", "nameStatus");
             ViewBag.idCustomer = new SelectList(customer.GetListCustomer().Select(x => new { idCustomer = x.idCustomer, name = x.name + " - " + x.phone }), "idCustomer", "name");
-
             return View();
         }
 
@@ -43,13 +42,9 @@ namespace SE.Controllers
         public ActionResult Create(Ticket v)
         {
             model.AddTicket(v);
-
             List<Ticket> ticket = model.GetListTicket(Convert.ToInt32(v.idSchedule));
-
             Session["schedule"] = new ListTicket { idSchedule = Convert.ToInt32(v.idSchedule), ticket = ticket };
-
             ViewBag.notify = new Notify { status = true, msg = "Sell ticket successfull" };
-
             return View("Index");
         }
 
@@ -63,44 +58,33 @@ namespace SE.Controllers
         public ActionResult Choose(int id)
         {
             List<Ticket> ticket = model.GetListTicket(id);
-
             Session["schedule"] = new ListTicket{ idSchedule = id, ticket = ticket };
-
             return RedirectToAction("Index");
         }
 
         public ActionResult Delete(int id)
         {
             model.Delete(id);
-
             int idSchedule = ((ListTicket) Session["schedule"]).idSchedule;
-
             List<Ticket> ticket = model.GetListTicket(Convert.ToInt32(idSchedule));
-
             Session["schedule"] = new ListTicket { idSchedule = Convert.ToInt32(idSchedule), ticket = ticket };
-
             return RedirectToAction("Index");
         }
 
         public ActionResult Paid(int id)
         {
             var v = model.Paid(id);
-
             if (v == true)
             {
                 int idSchedule = ((ListTicket)Session["schedule"]).idSchedule;
-
                 List<Ticket> ticket = model.GetListTicket(Convert.ToInt32(idSchedule));
-
                 Session["schedule"] = new ListTicket { idSchedule = Convert.ToInt32(idSchedule), ticket = ticket };
-
                 ViewBag.notify = new Notify { status = true, msg = "Paid successfull" };
             }
             else
             {
                 ViewBag.notify = new Notify { status = false, msg = "Failed to paid" };
             }
-
             return View("Index");
         }
     }

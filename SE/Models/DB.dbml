@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Company" Class="DBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=ASUS-LKP\SQLEXPRESS;Initial Catalog=Company;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="CompanyConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=MY-PC\SQLEXPRESS;Initial Catalog=Company;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="CompanyConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.City" Member="Cities">
     <Type Name="City">
       <Column Name="idCity" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -64,7 +64,7 @@
       <Column Name="idEmployee" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="idVehicle" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="price" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
-      <Association Name="Schedule_Ticket" Member="Tickets" ThisKey="idSchedule" OtherKey="idShedule" Type="Ticket" />
+      <Association Name="Schedule_Ticket" Member="Tickets" ThisKey="idSchedule" OtherKey="idSchedule" Type="Ticket" />
       <Association Name="Employee_Schedule" Member="Employee" ThisKey="idEmployee" OtherKey="idEmployee" Type="Employee" IsForeignKey="true" />
       <Association Name="Route_Schedule" Member="Route" ThisKey="idRoute" OtherKey="idRoute" Type="Route" IsForeignKey="true" />
       <Association Name="TimeStart_Schedule" Member="TimeStart" ThisKey="idTime" OtherKey="idTime" Type="TimeStart" IsForeignKey="true" />
@@ -76,7 +76,6 @@
       <Column Name="idSit" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="idVehicle" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="nameSit" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
-      <Association Name="Sit_Ticket" Member="Tickets" ThisKey="idSit" OtherKey="idSit" Type="Ticket" />
       <Association Name="Vehicle_Sit" Member="Vehicle" ThisKey="idVehicle" OtherKey="idVehicle" Type="Vehicle" IsForeignKey="true" />
     </Type>
   </Table>
@@ -93,13 +92,12 @@
       <Column Name="idCustomer" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="idStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="idSit" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="idShedule" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="idSchedule" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="idEmployee" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="dateCreate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Association Name="Customer_Ticket" Member="Customer" ThisKey="idCustomer" OtherKey="idCustomer" Type="Customer" IsForeignKey="true" />
       <Association Name="Employee_Ticket" Member="Employee" ThisKey="idEmployee" OtherKey="idEmployee" Type="Employee" IsForeignKey="true" />
-      <Association Name="Schedule_Ticket" Member="Schedule" ThisKey="idShedule" OtherKey="idSchedule" Type="Schedule" IsForeignKey="true" />
-      <Association Name="Sit_Ticket" Member="Sit" ThisKey="idSit" OtherKey="idSit" Type="Sit" IsForeignKey="true" />
+      <Association Name="Schedule_Ticket" Member="Schedule" ThisKey="idSchedule" OtherKey="idSchedule" Type="Schedule" IsForeignKey="true" />
       <Association Name="StatusPay_Ticket" Member="StatusPay" ThisKey="idStatus" OtherKey="idStatus" Type="StatusPay" IsForeignKey="true" />
     </Type>
   </Table>

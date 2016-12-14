@@ -12,7 +12,10 @@ namespace SE.Controllers
         private UserModel model = new UserModel();
         private Notify note = new Notify();
 
-        // GET: User
+        /// <summary>
+        /// GET: User
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View();
@@ -28,7 +31,6 @@ namespace SE.Controllers
         public ActionResult Create(Employee v)
         {
             ViewBag.idTypeE = new SelectList(model.GetListPos(), "idTypeE", "nameTypeE");
-
             if (note.checkError(v.name, null))
             {
                 ViewBag.notify = new Notify { status = false, msg = "Please enter your name" };              
@@ -69,18 +71,14 @@ namespace SE.Controllers
                 ViewBag.notify = new Notify { status = false, msg = "Please enter your startday" };
                 return View();
             }
-
             model.AddEmployee(v);
-
             ViewBag.notify = new Notify { status = true, msg = "Add user successfull" };
-
             return View("Index");
         }
 
         public JsonResult GetListUser()
         {
-            var data = model.GetListUser();
-            
+            var data = model.GetListUser();       
             JsonResult result = Json(data.Select(
                 x => new {
                     id = x.idEmployee,
@@ -90,7 +88,6 @@ namespace SE.Controllers
                     position = x.EmployeeType.nameTypeE,
                     action = ("<div class=\"todo-list-item\" style=\"padding:0\"><a title=\"Edit\" href=\"" + Url.Action("Edit", new { ID = x.idEmployee })+ "\" ><svg class=\"glyph stroked pencil\" style=\"width:20px; height: 20px\"><use xlink:href=\"#stroked-pencil\"></use></svg></a>&nbsp;&nbsp;<a title=\"Delete\" href = \"" + Url.Action("Delete", new { ID = x.idEmployee }) + "\" class=\"trash\"><svg class=\"glyph stroked trash\" style=\"width:20px; height: 20px\"><use xlink:href=\"#stroked-trash\"></use></svg></a></div>").ToString()
                 }), JsonRequestBehavior.AllowGet);
-
             return result;
         }
 
@@ -103,12 +100,11 @@ namespace SE.Controllers
         public ActionResult Edit(int id)
         {
             var v = model.Edit(id);
-
             if (note.checkError(v, null))
+            {
                 return View("Index");
-
+            }   
             ViewBag.idTypeE = new SelectList(model.GetListPos(), "idTypeE", "nameTypeE", v.idTypeE);
-
             return View(v);
         }
 
@@ -116,7 +112,6 @@ namespace SE.Controllers
         public ActionResult Edit(Employee v)
         {
             ViewBag.idTypeE = new SelectList(model.GetListPos(), "idTypeE", "nameTypeE");
-
             if (note.checkError(v.name, null))
             {
                 ViewBag.notify = new Notify { status = false, msg = "Please enter your name" };
@@ -152,11 +147,8 @@ namespace SE.Controllers
                 ViewBag.notify = new Notify { status = false, msg = "Please enter your startday" };
                 return View();
             }
-
             model.Edit(v);
-
             ViewBag.notify = new Notify { status = true, msg = "Edit user successfull" };
-
             return View("Index");
         }
         

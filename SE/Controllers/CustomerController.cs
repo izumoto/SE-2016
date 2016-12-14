@@ -12,7 +12,10 @@ namespace SE.Controllers
         private CustomerModel model = new CustomerModel();
         private Notify note = new Notify();
 
-        // GET: Customer
+        /// <summary>
+        /// Get Customer
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View();
@@ -22,7 +25,6 @@ namespace SE.Controllers
         {
             ViewBag.sit = id;
             ViewBag.idSchedule = Request.Params["idSchedule"].ToString();
-
             return View();
         }
 
@@ -31,7 +33,7 @@ namespace SE.Controllers
         {
             ViewBag.sit = Convert.ToInt32(Request.Params["idSit"].ToString());
             ViewBag.idSchedule = Request.Params["idSchedule"].ToString();
-
+            /// Check values input format
             if (note.checkError(v.name, null))
             {
                 ViewBag.notify = new Notify { status = false, msg = "Please enter name" };
@@ -52,9 +54,7 @@ namespace SE.Controllers
                 ViewBag.notify = new Notify { status = false, msg = "Please enter id card" };
                 return View();
             }
-
             model.AddCustomer(v);
-
             return RedirectToAction("Create", "Ticket", new { ID = ViewBag.sit, idSchedule = ViewBag.idSchedule });
         }
     }
