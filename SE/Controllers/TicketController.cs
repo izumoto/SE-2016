@@ -59,7 +59,7 @@ namespace SE.Controllers
         public ActionResult Choose(int id)
         {
             List<Ticket> ticket = model.GetListTicket(id);
-            Session["schedule"] = new ListTicket{ idSchedule = id, ticket = ticket };
+            Session["schedule"] = new ListTicket { idSchedule = id, ticket = ticket };
             return RedirectToAction("Index");
         }
 

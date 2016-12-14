@@ -24,8 +24,7 @@ namespace SE.Controllers
         public JsonResult GetListCity()
         {
             var data = model.GetListCity();
-            JsonResult result = Json(data.Select(
-                x => new
+            JsonResult result = Json(data.Select(x => new
                 {
                     id = x.idCity,
                     name = x.nameCity,
@@ -37,8 +36,7 @@ namespace SE.Controllers
         public JsonResult GetListRoute()
         {
             var data = model.GetListRoute();
-            JsonResult result = Json(data.Select(
-                x => new
+            JsonResult result = Json(data.Select(x => new
                 {
                     id = x.idRoute,
                     name = x.City.nameCity + " - " + x.City1.nameCity,
