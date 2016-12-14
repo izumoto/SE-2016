@@ -23,7 +23,10 @@ namespace SE.Models
         public Employee CheckUser()
         {
             if (UserName == null | Password == null)
+            {
                 return null;
+            }
+                
             DBDataContext db = new DBDataContext();
             /// Get user with username and password
             var result = db.Employees.SingleOrDefault(x => x.username == UserName);
@@ -51,10 +54,8 @@ namespace SE.Models
             {
                 hash.Append(bytes[i].ToString("x2"));
             }
+
             return hash.ToString();
         }
-
     }
-
-
 }

@@ -27,10 +27,11 @@ namespace SE.Controllers
                 ViewBag.notify = new Notify { status = false, msg = "Please enter correct Username and Password." };
                 return View();
             }
-            Session["user"] = user;
 
-            return Redirect(Url.Action("Index","Home"));
+            Session["user"] = user;
+            return Redirect(Url.Action("Index", "Home"));
         }
+
         public ActionResult Logout()
         {
             Session["user"] = null;

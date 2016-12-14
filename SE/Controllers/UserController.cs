@@ -71,6 +71,7 @@ namespace SE.Controllers
                 ViewBag.notify = new Notify { status = false, msg = "Please enter your startday" };
                 return View();
             }
+
             model.AddEmployee(v);
             ViewBag.notify = new Notify { status = true, msg = "Add user successfull" };
             return View("Index");
@@ -80,7 +81,8 @@ namespace SE.Controllers
         {
             var data = model.GetListUser();       
             JsonResult result = Json(data.Select(
-                x => new {
+                x => new
+                {
                     id = x.idEmployee,
                     username = x.username,
                     name = x.name,
@@ -104,6 +106,7 @@ namespace SE.Controllers
             {
                 return View("Index");
             }   
+
             ViewBag.idTypeE = new SelectList(model.GetListPos(), "idTypeE", "nameTypeE", v.idTypeE);
             return View(v);
         }
@@ -147,10 +150,10 @@ namespace SE.Controllers
                 ViewBag.notify = new Notify { status = false, msg = "Please enter your startday" };
                 return View();
             }
+
             model.Edit(v);
             ViewBag.notify = new Notify { status = true, msg = "Edit user successfull" };
             return View("Index");
         }
-        
     }
 }

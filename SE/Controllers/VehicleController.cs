@@ -39,6 +39,7 @@ namespace SE.Controllers
                 ViewBag.notify = new Notify { status = false, msg = "Please enter your day import" };
                 return View();
             }
+
             model.AddVehicle(v);
             ViewBag.notify = new Notify { status = true, msg = "Add vehicle successfull" };
             return View("Index");
@@ -48,7 +49,8 @@ namespace SE.Controllers
         {
             var data = model.GetListVehicle();
             JsonResult result = Json(data.Select(
-                x => new {
+                x => new
+                {
                     id = x.idVehicle,
                     linces = x.license,
                     date = x.dayImport.ToString(),
@@ -70,6 +72,7 @@ namespace SE.Controllers
             {
                 return View("Index");
             }
+
             return View(v);
         }
 
@@ -86,6 +89,7 @@ namespace SE.Controllers
                 ViewBag.notify = new Notify { status = false, msg = "Please enter your day import" };
                 return View();
             }
+
             model.Edit(v);
             ViewBag.notify = new Notify { status = true, msg = "Edit vehicle successfull" };
             return View("Index");

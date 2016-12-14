@@ -36,6 +36,7 @@ namespace SE.Models
                 var data = from s in db.Schedules select s;
                 list = data.ToList<Schedule>();
             }
+
             return list;
         }
 

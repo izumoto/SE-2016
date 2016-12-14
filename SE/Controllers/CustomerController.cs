@@ -49,11 +49,13 @@ namespace SE.Controllers
                 ViewBag.notify = new Notify { status = false, msg = "Please enter phone" };
                 return View();
             }
+
             if (note.checkError(v.idcard, "number"))
             {
                 ViewBag.notify = new Notify { status = false, msg = "Please enter id card" };
                 return View();
             }
+
             model.AddCustomer(v);
             return RedirectToAction("Create", "Ticket", new { ID = ViewBag.sit, idSchedule = ViewBag.idSchedule });
         }

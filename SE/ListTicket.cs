@@ -9,6 +9,7 @@ namespace SE
     public class ListTicket
     {
         public int idSchedule { get; set; }
+
         public List<Ticket> ticket { get; set; }
     }
 }

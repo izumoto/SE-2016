@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Company" Class="DBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=ASUS-LKP\SQLEXPRESS;Initial Catalog=Company;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="CompanyConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=MY-PC\SQLEXPRESS;Initial Catalog=Company;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="CompanyConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.City" Member="Cities">
     <Type Name="City">
       <Column Name="idCity" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -54,6 +54,13 @@
       <Association Name="City_Route1" Member="City1" ThisKey="idTo" OtherKey="idCity" Type="City" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.StatusPay" Member="StatusPays">
+    <Type Name="StatusPay">
+      <Column Name="idStatus" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nameStatus" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="StatusPay_Ticket" Member="Tickets" ThisKey="idStatus" OtherKey="idStatus" Type="Ticket" />
+    </Type>
+  </Table>
   <Table Name="dbo.Schedule" Member="Schedules">
     <Type Name="Schedule">
       <Column Name="idSchedule" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -71,26 +78,11 @@
       <Association Name="Vehicle_Schedule" Member="Vehicle" ThisKey="idVehicle" OtherKey="idVehicle" Type="Vehicle" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.StatusPay" Member="StatusPays">
-    <Type Name="StatusPay">
-      <Column Name="idStatus" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="nameStatus" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
-      <Association Name="StatusPay_Ticket" Member="Tickets" ThisKey="idStatus" OtherKey="idStatus" Type="Ticket" />
-    </Type>
-  </Table>
   <Table Name="dbo.TimeStart" Member="TimeStarts">
     <Type Name="TimeStart">
       <Column Name="idTime" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="time" Type="System.TimeSpan" DbType="Time" CanBeNull="true" />
       <Association Name="TimeStart_Schedule" Member="Schedules" ThisKey="idTime" OtherKey="idTime" Type="Schedule" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Vehicle" Member="Vehicles">
-    <Type Name="Vehicle">
-      <Column Name="idVehicle" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="license" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="dayImport" Type="System.DateTime" DbType="Date" CanBeNull="true" />
-      <Association Name="Vehicle_Schedule" Member="Schedules" ThisKey="idVehicle" OtherKey="idVehicle" Type="Schedule" />
     </Type>
   </Table>
   <Table Name="dbo.Ticket" Member="Tickets">
@@ -106,6 +98,14 @@
       <Association Name="Employee_Ticket" Member="Employee" ThisKey="idEmployee" OtherKey="idEmployee" Type="Employee" IsForeignKey="true" />
       <Association Name="Schedule_Ticket" Member="Schedule" ThisKey="idSchedule" OtherKey="idSchedule" Type="Schedule" IsForeignKey="true" />
       <Association Name="StatusPay_Ticket" Member="StatusPay" ThisKey="idStatus" OtherKey="idStatus" Type="StatusPay" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Vehicle" Member="Vehicles">
+    <Type Name="Vehicle">
+      <Column Name="idVehicle" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="license" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="dayImport" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Vehicle_Schedule" Member="Schedules" ThisKey="idVehicle" OtherKey="idVehicle" Type="Schedule" />
     </Type>
   </Table>
 </Database>

@@ -122,6 +122,7 @@ namespace SE.Models
                     /// md5 format for password
                     e.password = LoginModel.md5(v.password);
                 }
+
                 db.SubmitChanges();
                 return true;
             }

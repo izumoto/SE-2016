@@ -10,6 +10,7 @@ namespace SE.Controllers
     public class HomeController : Controller
     {
         private HomeModel model = new HomeModel();
+
         /// <summary>
         /// GET Home
         /// </summary>
@@ -18,6 +19,5 @@ namespace SE.Controllers
         {
             return View(model);
         }
-
     }
 }

@@ -45,12 +45,13 @@ namespace SE.Models
         /// <returns></returns>
         public int CountSales()
         {
-            var data = (from s in db.Tickets join v in db.Schedules on s.idSchedule equals v.idSchedule select v.price);
+            var data = from s in db.Tickets join v in db.Schedules on s.idSchedule equals v.idSchedule select v.price;
             int result = 0;
             foreach (int e in data)
             {
                 result += e;
             }
+
             return result;
         }
     }
