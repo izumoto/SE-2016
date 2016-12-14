@@ -12,7 +12,7 @@ namespace SE.Tests
     public class NotifyTests
     {
         /// <summary>
-        /// Test aa
+        /// Test check object null
         /// </summary>
         [TestMethod()]
         public void checkErrorTest()

@@ -33,6 +33,9 @@ namespace SE.Models
     partial void InsertCity(City instance);
     partial void UpdateCity(City instance);
     partial void DeleteCity(City instance);
+    partial void InsertVehicle(Vehicle instance);
+    partial void UpdateVehicle(Vehicle instance);
+    partial void DeleteVehicle(Vehicle instance);
     partial void InsertCustomer(Customer instance);
     partial void UpdateCustomer(Customer instance);
     partial void DeleteCustomer(Customer instance);
@@ -45,25 +48,25 @@ namespace SE.Models
     partial void InsertRoute(Route instance);
     partial void UpdateRoute(Route instance);
     partial void DeleteRoute(Route instance);
-    partial void InsertStatusPay(StatusPay instance);
-    partial void UpdateStatusPay(StatusPay instance);
-    partial void DeleteStatusPay(StatusPay instance);
     partial void InsertSchedule(Schedule instance);
     partial void UpdateSchedule(Schedule instance);
     partial void DeleteSchedule(Schedule instance);
-    partial void InsertTimeStart(TimeStart instance);
-    partial void UpdateTimeStart(TimeStart instance);
-    partial void DeleteTimeStart(TimeStart instance);
+    partial void InsertSit(Sit instance);
+    partial void UpdateSit(Sit instance);
+    partial void DeleteSit(Sit instance);
+    partial void InsertStatusPay(StatusPay instance);
+    partial void UpdateStatusPay(StatusPay instance);
+    partial void DeleteStatusPay(StatusPay instance);
     partial void InsertTicket(Ticket instance);
     partial void UpdateTicket(Ticket instance);
     partial void DeleteTicket(Ticket instance);
-    partial void InsertVehicle(Vehicle instance);
-    partial void UpdateVehicle(Vehicle instance);
-    partial void DeleteVehicle(Vehicle instance);
+    partial void InsertTimeStart(TimeStart instance);
+    partial void UpdateTimeStart(TimeStart instance);
+    partial void DeleteTimeStart(TimeStart instance);
     #endregion
 		
 		public DBDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["CompanyConnectionString1"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["CompanyConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -100,6 +103,14 @@ namespace SE.Models
 			}
 		}
 		
+		public System.Data.Linq.Table<Vehicle> Vehicles
+		{
+			get
+			{
+				return this.GetTable<Vehicle>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Customer> Customers
 		{
 			get
@@ -132,14 +143,6 @@ namespace SE.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<StatusPay> StatusPays
-		{
-			get
-			{
-				return this.GetTable<StatusPay>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Schedule> Schedules
 		{
 			get
@@ -148,11 +151,19 @@ namespace SE.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<TimeStart> TimeStarts
+		public System.Data.Linq.Table<Sit> Sits
 		{
 			get
 			{
-				return this.GetTable<TimeStart>();
+				return this.GetTable<Sit>();
+			}
+		}
+		
+		public System.Data.Linq.Table<StatusPay> StatusPays
+		{
+			get
+			{
+				return this.GetTable<StatusPay>();
 			}
 		}
 		
@@ -164,11 +175,11 @@ namespace SE.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<Vehicle> Vehicles
+		public System.Data.Linq.Table<TimeStart> TimeStarts
 		{
 			get
 			{
-				return this.GetTable<Vehicle>();
+				return this.GetTable<TimeStart>();
 			}
 		}
 	}
@@ -312,6 +323,172 @@ namespace SE.Models
 		{
 			this.SendPropertyChanging();
 			entity.City1 = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Vehicle")]
+	public partial class Vehicle : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _idVehicle;
+		
+		private string _license;
+		
+		private System.Nullable<System.DateTime> _dayImport;
+		
+		private EntitySet<Schedule> _Schedules;
+		
+		private EntitySet<Sit> _Sits;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidVehicleChanging(int value);
+    partial void OnidVehicleChanged();
+    partial void OnlicenseChanging(string value);
+    partial void OnlicenseChanged();
+    partial void OndayImportChanging(System.Nullable<System.DateTime> value);
+    partial void OndayImportChanged();
+    #endregion
+		
+		public Vehicle()
+		{
+			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
+			this._Sits = new EntitySet<Sit>(new Action<Sit>(this.attach_Sits), new Action<Sit>(this.detach_Sits));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idVehicle", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int idVehicle
+		{
+			get
+			{
+				return this._idVehicle;
+			}
+			set
+			{
+				if ((this._idVehicle != value))
+				{
+					this.OnidVehicleChanging(value);
+					this.SendPropertyChanging();
+					this._idVehicle = value;
+					this.SendPropertyChanged("idVehicle");
+					this.OnidVehicleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_license", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		public string license
+		{
+			get
+			{
+				return this._license;
+			}
+			set
+			{
+				if ((this._license != value))
+				{
+					this.OnlicenseChanging(value);
+					this.SendPropertyChanging();
+					this._license = value;
+					this.SendPropertyChanged("license");
+					this.OnlicenseChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dayImport", DbType="Date")]
+		public System.Nullable<System.DateTime> dayImport
+		{
+			get
+			{
+				return this._dayImport;
+			}
+			set
+			{
+				if ((this._dayImport != value))
+				{
+					this.OndayImportChanging(value);
+					this.SendPropertyChanging();
+					this._dayImport = value;
+					this.SendPropertyChanged("dayImport");
+					this.OndayImportChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vehicle_Schedule", Storage="_Schedules", ThisKey="idVehicle", OtherKey="idVehicle")]
+		public EntitySet<Schedule> Schedules
+		{
+			get
+			{
+				return this._Schedules;
+			}
+			set
+			{
+				this._Schedules.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vehicle_Sit", Storage="_Sits", ThisKey="idVehicle", OtherKey="idVehicle")]
+		public EntitySet<Sit> Sits
+		{
+			get
+			{
+				return this._Sits;
+			}
+			set
+			{
+				this._Sits.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Schedules(Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vehicle = this;
+		}
+		
+		private void detach_Schedules(Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vehicle = null;
+		}
+		
+		private void attach_Sits(Sit entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vehicle = this;
+		}
+		
+		private void detach_Sits(Sit entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vehicle = null;
 		}
 	}
 	
@@ -1258,120 +1435,6 @@ namespace SE.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.StatusPay")]
-	public partial class StatusPay : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _idStatus;
-		
-		private string _nameStatus;
-		
-		private EntitySet<Ticket> _Tickets;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidStatusChanging(int value);
-    partial void OnidStatusChanged();
-    partial void OnnameStatusChanging(string value);
-    partial void OnnameStatusChanged();
-    #endregion
-		
-		public StatusPay()
-		{
-			this._Tickets = new EntitySet<Ticket>(new Action<Ticket>(this.attach_Tickets), new Action<Ticket>(this.detach_Tickets));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idStatus", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int idStatus
-		{
-			get
-			{
-				return this._idStatus;
-			}
-			set
-			{
-				if ((this._idStatus != value))
-				{
-					this.OnidStatusChanging(value);
-					this.SendPropertyChanging();
-					this._idStatus = value;
-					this.SendPropertyChanged("idStatus");
-					this.OnidStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nameStatus", DbType="Text", UpdateCheck=UpdateCheck.Never)]
-		public string nameStatus
-		{
-			get
-			{
-				return this._nameStatus;
-			}
-			set
-			{
-				if ((this._nameStatus != value))
-				{
-					this.OnnameStatusChanging(value);
-					this.SendPropertyChanging();
-					this._nameStatus = value;
-					this.SendPropertyChanged("nameStatus");
-					this.OnnameStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="StatusPay_Ticket", Storage="_Tickets", ThisKey="idStatus", OtherKey="idStatus")]
-		public EntitySet<Ticket> Tickets
-		{
-			get
-			{
-				return this._Tickets;
-			}
-			set
-			{
-				this._Tickets.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Tickets(Ticket entity)
-		{
-			this.SendPropertyChanging();
-			entity.StatusPay = this;
-		}
-		
-		private void detach_Tickets(Ticket entity)
-		{
-			this.SendPropertyChanging();
-			entity.StatusPay = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Schedule")]
 	public partial class Schedule : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1400,9 +1463,9 @@ namespace SE.Models
 		
 		private EntityRef<Route> _Route;
 		
-		private EntityRef<TimeStart> _TimeStart;
-		
 		private EntityRef<Vehicle> _Vehicle;
+		
+		private EntityRef<TimeStart> _TimeStart;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1431,8 +1494,8 @@ namespace SE.Models
 			this._Tickets = new EntitySet<Ticket>(new Action<Ticket>(this.attach_Tickets), new Action<Ticket>(this.detach_Tickets));
 			this._Employee = default(EntityRef<Employee>);
 			this._Route = default(EntityRef<Route>);
-			this._TimeStart = default(EntityRef<TimeStart>);
 			this._Vehicle = default(EntityRef<Vehicle>);
+			this._TimeStart = default(EntityRef<TimeStart>);
 			OnCreated();
 		}
 		
@@ -1693,40 +1756,6 @@ namespace SE.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TimeStart_Schedule", Storage="_TimeStart", ThisKey="idTime", OtherKey="idTime", IsForeignKey=true)]
-		public TimeStart TimeStart
-		{
-			get
-			{
-				return this._TimeStart.Entity;
-			}
-			set
-			{
-				TimeStart previousValue = this._TimeStart.Entity;
-				if (((previousValue != value) 
-							|| (this._TimeStart.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._TimeStart.Entity = null;
-						previousValue.Schedules.Remove(this);
-					}
-					this._TimeStart.Entity = value;
-					if ((value != null))
-					{
-						value.Schedules.Add(this);
-						this._idTime = value.idTime;
-					}
-					else
-					{
-						this._idTime = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("TimeStart");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vehicle_Schedule", Storage="_Vehicle", ThisKey="idVehicle", OtherKey="idVehicle", IsForeignKey=true)]
 		public Vehicle Vehicle
 		{
@@ -1757,6 +1786,40 @@ namespace SE.Models
 						this._idVehicle = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Vehicle");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TimeStart_Schedule", Storage="_TimeStart", ThisKey="idTime", OtherKey="idTime", IsForeignKey=true)]
+		public TimeStart TimeStart
+		{
+			get
+			{
+				return this._TimeStart.Entity;
+			}
+			set
+			{
+				TimeStart previousValue = this._TimeStart.Entity;
+				if (((previousValue != value) 
+							|| (this._TimeStart.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TimeStart.Entity = null;
+						previousValue.Schedules.Remove(this);
+					}
+					this._TimeStart.Entity = value;
+					if ((value != null))
+					{
+						value.Schedules.Add(this);
+						this._idTime = value.idTime;
+					}
+					else
+					{
+						this._idTime = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TimeStart");
 				}
 			}
 		}
@@ -1794,84 +1857,235 @@ namespace SE.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TimeStart")]
-	public partial class TimeStart : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Sit")]
+	public partial class Sit : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _idTime;
+		private int _idSit;
 		
-		private System.Nullable<System.TimeSpan> _time;
+		private System.Nullable<int> _idVehicle;
 		
-		private EntitySet<Schedule> _Schedules;
+		private string _nameSit;
+		
+		private EntityRef<Vehicle> _Vehicle;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnidTimeChanging(int value);
-    partial void OnidTimeChanged();
-    partial void OntimeChanging(System.Nullable<System.TimeSpan> value);
-    partial void OntimeChanged();
+    partial void OnidSitChanging(int value);
+    partial void OnidSitChanged();
+    partial void OnidVehicleChanging(System.Nullable<int> value);
+    partial void OnidVehicleChanged();
+    partial void OnnameSitChanging(string value);
+    partial void OnnameSitChanged();
     #endregion
 		
-		public TimeStart()
+		public Sit()
 		{
-			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
+			this._Vehicle = default(EntityRef<Vehicle>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idTime", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int idTime
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idSit", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int idSit
 		{
 			get
 			{
-				return this._idTime;
+				return this._idSit;
 			}
 			set
 			{
-				if ((this._idTime != value))
+				if ((this._idSit != value))
 				{
-					this.OnidTimeChanging(value);
+					this.OnidSitChanging(value);
 					this.SendPropertyChanging();
-					this._idTime = value;
-					this.SendPropertyChanged("idTime");
-					this.OnidTimeChanged();
+					this._idSit = value;
+					this.SendPropertyChanged("idSit");
+					this.OnidSitChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_time", DbType="Time")]
-		public System.Nullable<System.TimeSpan> time
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idVehicle", DbType="Int")]
+		public System.Nullable<int> idVehicle
 		{
 			get
 			{
-				return this._time;
+				return this._idVehicle;
 			}
 			set
 			{
-				if ((this._time != value))
+				if ((this._idVehicle != value))
 				{
-					this.OntimeChanging(value);
+					if (this._Vehicle.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnidVehicleChanging(value);
 					this.SendPropertyChanging();
-					this._time = value;
-					this.SendPropertyChanged("time");
-					this.OntimeChanged();
+					this._idVehicle = value;
+					this.SendPropertyChanged("idVehicle");
+					this.OnidVehicleChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TimeStart_Schedule", Storage="_Schedules", ThisKey="idTime", OtherKey="idTime")]
-		public EntitySet<Schedule> Schedules
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nameSit", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		public string nameSit
 		{
 			get
 			{
-				return this._Schedules;
+				return this._nameSit;
 			}
 			set
 			{
-				this._Schedules.Assign(value);
+				if ((this._nameSit != value))
+				{
+					this.OnnameSitChanging(value);
+					this.SendPropertyChanging();
+					this._nameSit = value;
+					this.SendPropertyChanged("nameSit");
+					this.OnnameSitChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vehicle_Sit", Storage="_Vehicle", ThisKey="idVehicle", OtherKey="idVehicle", IsForeignKey=true)]
+		public Vehicle Vehicle
+		{
+			get
+			{
+				return this._Vehicle.Entity;
+			}
+			set
+			{
+				Vehicle previousValue = this._Vehicle.Entity;
+				if (((previousValue != value) 
+							|| (this._Vehicle.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Vehicle.Entity = null;
+						previousValue.Sits.Remove(this);
+					}
+					this._Vehicle.Entity = value;
+					if ((value != null))
+					{
+						value.Sits.Add(this);
+						this._idVehicle = value.idVehicle;
+					}
+					else
+					{
+						this._idVehicle = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Vehicle");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.StatusPay")]
+	public partial class StatusPay : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _idStatus;
+		
+		private string _nameStatus;
+		
+		private EntitySet<Ticket> _Tickets;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidStatusChanging(int value);
+    partial void OnidStatusChanged();
+    partial void OnnameStatusChanging(string value);
+    partial void OnnameStatusChanged();
+    #endregion
+		
+		public StatusPay()
+		{
+			this._Tickets = new EntitySet<Ticket>(new Action<Ticket>(this.attach_Tickets), new Action<Ticket>(this.detach_Tickets));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idStatus", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int idStatus
+		{
+			get
+			{
+				return this._idStatus;
+			}
+			set
+			{
+				if ((this._idStatus != value))
+				{
+					this.OnidStatusChanging(value);
+					this.SendPropertyChanging();
+					this._idStatus = value;
+					this.SendPropertyChanged("idStatus");
+					this.OnidStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nameStatus", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		public string nameStatus
+		{
+			get
+			{
+				return this._nameStatus;
+			}
+			set
+			{
+				if ((this._nameStatus != value))
+				{
+					this.OnnameStatusChanging(value);
+					this.SendPropertyChanging();
+					this._nameStatus = value;
+					this.SendPropertyChanged("nameStatus");
+					this.OnnameStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="StatusPay_Ticket", Storage="_Tickets", ThisKey="idStatus", OtherKey="idStatus")]
+		public EntitySet<Ticket> Tickets
+		{
+			get
+			{
+				return this._Tickets;
+			}
+			set
+			{
+				this._Tickets.Assign(value);
 			}
 		}
 		
@@ -1895,16 +2109,16 @@ namespace SE.Models
 			}
 		}
 		
-		private void attach_Schedules(Schedule entity)
+		private void attach_Tickets(Ticket entity)
 		{
 			this.SendPropertyChanging();
-			entity.TimeStart = this;
+			entity.StatusPay = this;
 		}
 		
-		private void detach_Schedules(Schedule entity)
+		private void detach_Tickets(Ticket entity)
 		{
 			this.SendPropertyChanging();
-			entity.TimeStart = null;
+			entity.StatusPay = null;
 		}
 	}
 	
@@ -2278,17 +2492,15 @@ namespace SE.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Vehicle")]
-	public partial class Vehicle : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TimeStart")]
+	public partial class TimeStart : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _idVehicle;
+		private int _idTime;
 		
-		private string _license;
-		
-		private System.Nullable<System.DateTime> _dayImport;
+		private System.Nullable<System.TimeSpan> _time;
 		
 		private EntitySet<Schedule> _Schedules;
 		
@@ -2296,81 +2508,59 @@ namespace SE.Models
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnidVehicleChanging(int value);
-    partial void OnidVehicleChanged();
-    partial void OnlicenseChanging(string value);
-    partial void OnlicenseChanged();
-    partial void OndayImportChanging(System.Nullable<System.DateTime> value);
-    partial void OndayImportChanged();
+    partial void OnidTimeChanging(int value);
+    partial void OnidTimeChanged();
+    partial void OntimeChanging(System.Nullable<System.TimeSpan> value);
+    partial void OntimeChanged();
     #endregion
 		
-		public Vehicle()
+		public TimeStart()
 		{
 			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idVehicle", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int idVehicle
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idTime", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int idTime
 		{
 			get
 			{
-				return this._idVehicle;
+				return this._idTime;
 			}
 			set
 			{
-				if ((this._idVehicle != value))
+				if ((this._idTime != value))
 				{
-					this.OnidVehicleChanging(value);
+					this.OnidTimeChanging(value);
 					this.SendPropertyChanging();
-					this._idVehicle = value;
-					this.SendPropertyChanged("idVehicle");
-					this.OnidVehicleChanged();
+					this._idTime = value;
+					this.SendPropertyChanged("idTime");
+					this.OnidTimeChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_license", DbType="Text", UpdateCheck=UpdateCheck.Never)]
-		public string license
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_time", DbType="Time")]
+		public System.Nullable<System.TimeSpan> time
 		{
 			get
 			{
-				return this._license;
+				return this._time;
 			}
 			set
 			{
-				if ((this._license != value))
+				if ((this._time != value))
 				{
-					this.OnlicenseChanging(value);
+					this.OntimeChanging(value);
 					this.SendPropertyChanging();
-					this._license = value;
-					this.SendPropertyChanged("license");
-					this.OnlicenseChanged();
+					this._time = value;
+					this.SendPropertyChanged("time");
+					this.OntimeChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dayImport", DbType="Date")]
-		public System.Nullable<System.DateTime> dayImport
-		{
-			get
-			{
-				return this._dayImport;
-			}
-			set
-			{
-				if ((this._dayImport != value))
-				{
-					this.OndayImportChanging(value);
-					this.SendPropertyChanging();
-					this._dayImport = value;
-					this.SendPropertyChanged("dayImport");
-					this.OndayImportChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vehicle_Schedule", Storage="_Schedules", ThisKey="idVehicle", OtherKey="idVehicle")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TimeStart_Schedule", Storage="_Schedules", ThisKey="idTime", OtherKey="idTime")]
 		public EntitySet<Schedule> Schedules
 		{
 			get
@@ -2406,13 +2596,13 @@ namespace SE.Models
 		private void attach_Schedules(Schedule entity)
 		{
 			this.SendPropertyChanging();
-			entity.Vehicle = this;
+			entity.TimeStart = this;
 		}
 		
 		private void detach_Schedules(Schedule entity)
 		{
 			this.SendPropertyChanging();
-			entity.Vehicle = null;
+			entity.TimeStart = null;
 		}
 	}
 }

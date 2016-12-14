@@ -6,6 +6,12 @@
         Response.Redirect(Url.Action("Index", "Login"));
     }
     SE.Models.Employee user = (SE.Models.Employee)Session["user"];
+
+    if (!SE.Controllers.LoginController.RoleUser(ViewContext.RouteData.Values["Controller"].ToString(), user))
+    {
+        Response.Redirect("/Home");
+    }
+
 }
 
 <!DOCTYPE html>
@@ -26,6 +32,14 @@
     <script src="~/Asset/js/html5shiv.js"></script>
     <script src="~/Asset/js/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .Driver.false {
+            display:none;
+        }
+        .Ticket.Seller.false {
+            display:none;
+        }
+    </style>
 
 </head>
 
@@ -66,35 +80,15 @@
 
             <li role="presentation" class="divider"></li>
 
-            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "User" ? "active" : "")"><a href="@Url.Action("Index", "User")"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user" /></svg> User Manager</a></li>
-            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Vehicle" ? "active" : "")"><a href="@Url.Action("Index", "Vehicle")"><svg class="glyph stroked table"><use xlink:href="#stroked-table" /></svg> Vehicle Manager</a></li>
-            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Place" ? "active" : "")"><a href="@Url.Action("Index", "Place")"><svg class="glyph stroked location pin"><use xlink:href="#stroked-location-pin" /></svg> Place Manager</a></li>
-            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Schedule" ? "active" : "")"><a href="@Url.Action("Index", "Schedule")"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar" /></svg> Schedule Manager</a></li>
+            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "User" ? "active" : "") @user.EmployeeType.nameTypeE @(SE.Controllers.LoginController.RoleUser("User",user)?"true":"false") "><a href="@Url.Action("Index", "User")"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user" /></svg> User Manager</a></li>
+            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Vehicle" ? "active" : "") @user.EmployeeType.nameTypeE @(SE.Controllers.LoginController.RoleUser("Vehicle",user)?"true":"false") "><a href="@Url.Action("Index", "Vehicle")"><svg class="glyph stroked table"><use xlink:href="#stroked-table" /></svg> Vehicle Manager</a></li>
+            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Place" ? "active" : "") @user.EmployeeType.nameTypeE @(SE.Controllers.LoginController.RoleUser("Place",user)?"true":"false") "><a href="@Url.Action("Index", "Place")"><svg class="glyph stroked location pin"><use xlink:href="#stroked-location-pin" /></svg> Place Manager</a></li>
+            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Schedule" ? "active" : "") @user.EmployeeType.nameTypeE @(SE.Controllers.LoginController.RoleUser("Schedule",user)?"true":"false") "><a href="@Url.Action("Index", "Schedule")"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar" /></svg> Schedule Manager</a></li>
 
-        <!--<li class="parent ">
-            <a href="#">
-                <span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Dropdown
-            </a>
-            <ul class="children collapse" id="sub-item-1">
-                <li>
-                    <a class="" href="#">
-                        <svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Sub Item 1
-                    </a>
-                </li>
-                <li>
-                    <a class="" href="#">
-                        <svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Sub Item 2
-                    </a>
-                </li>
-                <li>
-                    <a class="" href="#">
-                        <svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Sub Item 3
-                    </a>
-                </li>
-            </ul>
-        </li>-->
+
             <li role="presentation" class="divider"></li>
-            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Ticket" ? "active" : "")"><a href="@Url.Action("Index", "Ticket")"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil" /></svg> Sale Ticket</a></li>
+
+            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Ticket" ? "active" : "") @user.EmployeeType.nameTypeE @(SE.Controllers.LoginController.RoleUser("Ticket",user)?"true":"false") "><a href="@Url.Action("Index", "Ticket")"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil" /></svg> Sale Ticket</a></li>
         </ul>
 
     </div><!--/.sidebar-->

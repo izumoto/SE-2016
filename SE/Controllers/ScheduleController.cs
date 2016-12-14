@@ -67,6 +67,7 @@ namespace SE.Controllers
                     date = x.dayStart + " - " + x.dayEnd,
                     route = x.Route.City.nameCity + " - " + x.Route.City1.nameCity,
                     vehicle = x.Vehicle.license,
+                    driver = x.Employee.name,
                     price = x.price,
                     action = ("<div class=\"todo-list-item\" style=\"padding:0\"><a title=\"Edit\" href=\"" + Url.Action("Edit", new { ID = x.idSchedule }) + "\" ><svg class=\"glyph stroked pencil\" style=\"width:20px; height: 20px\"><use xlink:href=\"#stroked-pencil\"></use></svg></a>&nbsp;&nbsp;<a title=\"Delete\" href = \"" + Url.Action("Delete", new { ID = x.idSchedule }) + "\" class=\"trash\"><svg class=\"glyph stroked trash\" style=\"width:20px; height: 20px\"><use xlink:href=\"#stroked-trash\"></use></svg></a></div>").ToString(),
                     choose = ("<div class=\"todo-list-item\" style=\"padding:0\"><a title=\"Choose\" href=\"" + Url.Action("Choose","Ticket", new { ID = x.idSchedule }) + "\" ><svg class=\"glyph stroked checkmark\" style=\"width:20px; height: 20px\"><use xlink:href=\"#stroked-checkmark\"></use></svg>Choose</a>").ToString()

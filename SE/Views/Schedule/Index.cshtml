@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Schedule Manager";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    SE.Models.Employee user = (SE.Models.Employee)Session["user"];
 }
 
 <div class="row">
@@ -26,8 +27,12 @@
                             <th data-field="date" data-sortable="true">Date</th>
                             <th data-field="route" data-sortable="true">Route</th>
                             <th data-field="vehicle" data-sortable="true">Vehicle</th>
+                            <th data-field="driver" data-sortable="true">Driver</th>
                             <th data-field="price" data-sortable="true">Price</th>
-                            <th data-field="action">Action</th>
+                            @if (!(user.EmployeeType.nameTypeE == "Driver" | user.EmployeeType.nameTypeE == "Ticket Seller"))
+                            {
+                                <th data-field="action">Action</th>
+                            }
                         </tr>
                     </thead>
                 </table>

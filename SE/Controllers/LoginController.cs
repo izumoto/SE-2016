@@ -37,5 +37,24 @@ namespace SE.Controllers
             Session["user"] = null;
             return RedirectToAction("Index", "Login");
         }
+
+        public static bool RoleUser(String action, Employee user)
+        {
+            switch (action)
+            {
+                case "User":
+                    return !(user.EmployeeType.nameTypeE == "Driver" | user.EmployeeType.nameTypeE == "Ticket Seller");
+                case "Vehicle":
+                    return !(user.EmployeeType.nameTypeE == "Driver" | user.EmployeeType.nameTypeE == "Ticket Seller");
+                case "Place":
+                    return !(user.EmployeeType.nameTypeE == "Driver" | user.EmployeeType.nameTypeE == "Ticket Seller");
+                case "Schedule":
+                    return true;
+                case "Ticket":
+                    return !(user.EmployeeType.nameTypeE == "Driver");
+                default:
+                    return true;
+            }
+        }
     }
 }
